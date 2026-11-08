@@ -1,5 +1,7 @@
 # Fixed ETERNA / SEPIA candidate
 
+**Admission: HOLD (2026-11-08). Do not offer the current candidate for hardware testing.** See [safety decision](SAFETY-DECISION.md) for blockers and evidence, and [deferred first-test protocol](HARDWARE-CHECK.txt). First qualify boot/return before any ETERNA capture.
+
 Original research and source developed with OpenAI Codex assistance. Scope: fixed X-H1 2.15 ETERNA in the existing SEPIA slot on X-T2 4.41. No extra slot, profile file loader or live replacement is required.
 
 Current local image SHA-256: `c1aee308e0b6c54dfede3de4c48885223365b2b8e90c282c74d87a112d58fc10` (46,505,984 bytes). It is **not camera-tested or certified safe**. No new ZIP was produced.
@@ -30,3 +32,5 @@ python3 audit_eterna_minimal_package.py /path/to/eterna-minimal-sd-candidate /pa
 This standard-library gate requires local `ffboot.bin`, `ffsys.bin`, private `manifest.json`, and the stock directory's original DAT reference. It does not distribute or build firmware.
 
 The adjacent numeric verifier and guard sources need the full local workspace and its private inputs/dependencies, detailed in BOOT-GUARD.md. No firmware, coefficients, raw manifest or copied firmware instructions are published. This is not a standalone firmware reproduction package.
+
+The original `audit_eterna_minimal_admission.py` freezes identities and checks entry/branch destinations, static BSS separation, packaging consistency and byte equality of the unchanged numerically tested body. Run it from the original workspace layout, with Python 3 and the private candidate/stock/prior images, manifest, extracted layout, local reports, builder sources and FujiMod generated recipe. It does not fetch inputs, build firmware, trace ROM or establish recovery; the public directory alone cannot run it. Its output is local evidence, not a public patch manifest.
