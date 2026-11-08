@@ -9,7 +9,7 @@ import struct
 from pathlib import Path
 from unicorn import Uc,UC_ARCH_ARM,UC_MODE_ARM,UC_HOOK_CODE,UC_HOOK_MEM_WRITE,UC_HOOK_MEM_READ,UC_MEM_WRITE
 from unicorn import arm_const as reg
-from build_xt2_minimal_protected import ROOT,OUT,LATE,build
+from build_xt2_minimal_protected import ROOT,OUT,LATE,build,compile_protected_guard
 from build_xt2_delivery_probe import require,digest
 from xt2_minimal_boot_guard import compile_guard,ENTRY,LED_CONFIG
 
@@ -17,8 +17,8 @@ from xt2_minimal_boot_guard import compile_guard,ENTRY,LED_CONFIG
 def word(uc,address,value):uc.mem_write(address,struct.pack('<I',value&0xFFFFFFFF))
 
 
-def early_cases(image,meta):
-    _,symbols=compile_guard();u=Uc(UC_ARCH_ARM,UC_MODE_ARM)
+def early_cases(image,meta,points=None):
+    _,symbols=compile_protected_guard();u=Uc(UC_ARCH_ARM,UC_MODE_ARM)
     u.mem_map(0,(len(image)+4095)&~4095);u.mem_map(0xFFF0C000,4096)
     rows=struct.unpack_from('<I',image,LED_CONFIG)[0]
     gpio={a for a,_,_ in struct.iter_unpack('<III',image[LED_CONFIG+4:LED_CONFIG+4+rows*12])}
@@ -30,22 +30,24 @@ def early_cases(image,meta):
         elif address>=0xF0000000:state['reads'].append([address,size])
     u.hook_add(UC_HOOK_MEM_WRITE,memory)
     u.hook_add(UC_HOOK_MEM_READ,memory,begin=0xF0000000,end=0xFFFFFFFF)
-    points=[None,LATE,LATE+meta['late_bytes']-1,0xCF8214,symbols['xt2_minimal_guard_expected']]
+    if points is None:points=[None,LATE,LATE+meta['late_bytes']-1,0xCF8214,symbols['xt2_minimal_guard_expected']]
     regs=[getattr(reg,'UC_ARM_REG_R'+str(i)) for i in range(13)]+[reg.UC_ARM_REG_SP,reg.UC_ARM_REG_LR,reg.UC_ARM_REG_CPSR]
     result=[]
-    for address in points:
+    for mutation in points:
+        address=mutation[0] if isinstance(mutation,tuple) else mutation
         u.mem_write(0,image);state.update(writes=[],reads=[])
-        if address is not None:u.mem_write(address,bytes([image[address]^1]))
+        if address is not None:u.mem_write(address,mutation[1] if isinstance(mutation,tuple) else bytes([image[address]^1]))
         before=[0x12340000+256*i for i in range(13)]+[0xDEAD0000,0xBEEF0000,0xA0000013]
         for r,value in zip(regs,before):u.reg_write(r,value)
         for a in gpio:word(u,a,0x11223344)
         target=0x100 if address is None else symbols['xt2_minimal_guard_failed']+4
         u.emu_start(0,target,count=8000000)
-        require(u.reg_read(reg.UC_ARM_REG_PC)==target,'Early guard budget/return')
+        require(u.reg_read(reg.UC_ARM_REG_PC)==target,f'Early guard budget/return: corrupt={address!r}, pc={u.reg_read(reg.UC_ARM_REG_PC):#x}, target={target:#x}')
         led=[r for r in state['writes'] if r[0] in gpio]
         if address is None:require([u.reg_read(r) for r in regs]==before and len(led)==rows,'Early ABI/LED changed')
         else:require(not led and not state['reads'] and u.reg_read(reg.UC_ARM_REG_CPSR)&0x1C0==0x1C0,'Early fault did not stop before MMIO')
         result.append(dict(corrupted_address=None if address is None else hex(address),
+                           mutation='replacement:'+mutation[1].hex() if isinstance(mutation,tuple) else 'xor1' if address is not None else 'none',
                            stopped_at=hex(target),led_writes=len(led),native_reset_reached=address is None))
     return result
 

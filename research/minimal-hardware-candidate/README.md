@@ -1,6 +1,6 @@
 # Fixed ETERNA / SEPIA candidate
 
-**Later engineering result:** the [protected 274de1d2 variant](../minimal-data-protection/README.md) establishes data RO/XN in an image-contained native early-root check and rejects tested failures. The c1 image below is its historical base. Full camera boot is still HOLD; the separate early delivery probe remains the first proposed hardware step.
+**Later engineering result:** the [protected compact variant](../minimal-data-protection/README.md) establishes data RO/XN in an image-contained native early-root check and rejects tested failures. The c1 image below is its historical base. Full camera boot is still HOLD; the separate c136 early delivery probe is READY for its documented single limited first-stage test, subject to the owner's risk decision.
 
 **Update (2026-11-08):** this HOLD concerns the full active ETERNA image and is an intermediate result. A separate [early delivery/power-request probe](../delivery-probe/README.md) now limits the first experiment before native startup/persistence. Its first-test proposal and residual risks do not qualify the full image or close the development goal.
 

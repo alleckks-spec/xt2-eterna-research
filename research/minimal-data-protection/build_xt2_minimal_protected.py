@@ -20,6 +20,10 @@ SOURCES=['xt2_minimal_data_entry.S','xt2_minimal_data_prepare.c',
          'eterna_early_resident_gate.c','xt2_native_page_policy.c']
 
 
+def compile_protected_guard():
+    return compile_guard("xt2_minimal_compact_guard.S")
+
+
 def compile_late(expected):
     with tempfile.TemporaryDirectory(prefix='xt2-fixed-ro-') as tmp:
         tmp=Path(tmp);objects=[]
@@ -61,20 +65,21 @@ def build():
         edits.append(dict(address=address,old=old.hex(),new=bytes(data).hex()))
         image[address:address+len(data)]=data
     write(LATE,code)
-    original_call=bytearray(branch(0xCF8214,0xCF83CC));original_call[3]=0xEB
-    require(base[0xCF8214:0xCF8218]==bytes(original_call),'Original root call differs')
+    original=bytearray(branch(0xCF8214,0xCF83CC));original[3]=0xEB
+    require(base[0xCF8214:0xCF8218]==original,'Original root call differs')
     call=bytearray(branch(0xCF8214,LATE));call[3]=0xEB
     write(0xCF8214,call)
-    early,s=compile_guard()
+    early,s=compile_protected_guard()
     expected_address=s['xt2_minimal_guard_expected']
     ranges=list(RANGES)
     ranges[1]=(0xDF7900,LATE+len(code)-0xDF7900)
-    # Preserve the seven naturally aligned descriptors. Cover the new root BL
-    # by extending the existing initialized resident-code span, not its count.
-    ranges[2]=(0xC4D298,0xCF8218-0xC4D298)
+    # An eighth descriptor covers only the new root BL. Compact termination
+    # keeps the original 168-byte reservation without hashing the stock gap.
+    ranges.append((0xCF8214,4))
     ranges.append((ENTRY,expected_address-ENTRY))
     early=bytearray(early)
-    struct.pack_into('<14I',early,s['xt2_minimal_guard_ranges']-ENTRY,*(x for r in ranges for x in r))
+    require(len(early)==LIMIT-ENTRY and len(ranges)==8 and all(a and n for a,n in ranges),'Compact guard layout')
+    struct.pack_into('<16I',early,s['xt2_minimal_guard_ranges']-ENTRY,*(x for r in ranges for x in r))
     write(ENTRY,early)
     value=checksum(image[a:a+n] for a,n in ranges)
     write(expected_address,struct.pack('<I',value))

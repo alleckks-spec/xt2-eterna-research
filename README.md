@@ -1,5 +1,7 @@
 # X-T2 ETERNA backport research
 
+**First-stage readiness:** the unchanged `c136d6d7` diagnostic is engineering-admitted for its [single limited first test](research/delivery-probe/FIRST-TEST.txt), subject to the owner's acceptance of the stated residual risks. This is separate from the active ETERNA HOLD. The active image now uses an [81,440-byte compact check](research/minimal-data-protection/README.md), reduced from 780,916 bytes within the same 168-byte reservation; 110 targeted cases pass. No camera test is claimed. Offline placement and live-to-capture integration remain development tasks, not automatically blocked by camera availability.
+
 **Active-candidate memory hardening:** a [new fixed data-protection variant](research/minimal-data-protection/README.md) now executes an image-contained early-root RO/XN step in bounded native startup, preserves the original call and keeps protection through its return. The revised failure path rechecks context even after API errors before authorizing a power request. Full camera boot remains HOLD; the early diagnostic is still the first proposed hardware step, and the goal remains active.
 
 **Next engineering step:** a separate [early delivery/power-request probe](research/delivery-probe/README.md) now avoids native reset and persistence code. Five bounded paths and four original X-T2 power-bit comparisons are checked. This supports proposing a limited diagnostic test, not admission of the active ETERNA image. Physical supply release/ROM behavior remain untested; the development goal remains active.
@@ -8,7 +10,7 @@ Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as t
 
 ## Current research — 8 November 2026
 
-**Hardware admission decision: HOLD. Do not offer the current Sepia→ETERNA candidate for hardware testing yet.** The offline review freezes its identity and separates bounded checks from unknown ROM delivery, stock persistent writes and unqualified recovery. [Decision, evidence limits and conditions for reconsideration](research/minimal-hardware-candidate/SAFETY-DECISION.md). The prepared protocol first checks boot and return before any ETERNA capture; it is deferred, not permission to test.
+**Active ETERNA hardware admission decision: HOLD. Do not offer the current Sepia→ETERNA candidate for hardware testing yet.** The offline review freezes its identity and separates bounded checks from unknown ROM delivery, stock persistent writes and unqualified recovery. [Decision, evidence limits and conditions for reconsideration](research/minimal-hardware-candidate/SAFETY-DECISION.md). The prepared protocol first checks boot and return before any ETERNA capture; it is deferred, not permission to test.
 
 A 168-byte early corruption gate now checks every functional patch span before the original reset continuation. Three clean entry comparisons and 98 injected-failure checks pass in bounded execution; the numeric body is unchanged. It is not a global flash lock or a no-brick guarantee. [Original implementation, Fuji practice review and limits](research/minimal-hardware-candidate/BOOT-GUARD.md).
 
