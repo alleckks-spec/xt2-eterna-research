@@ -1,5 +1,7 @@
 # X-T2 ETERNA backport research
 
+**Active-candidate memory hardening:** a [new fixed data-protection variant](research/minimal-data-protection/README.md) now executes an image-contained early-root RO/XN step in bounded native startup, preserves the original call and keeps protection through its return. The revised failure path rechecks context even after API errors before authorizing a power request. Full camera boot remains HOLD; the early diagnostic is still the first proposed hardware step, and the goal remains active.
+
 **Next engineering step:** a separate [early delivery/power-request probe](research/delivery-probe/README.md) now avoids native reset and persistence code. Five bounded paths and four original X-T2 power-bit comparisons are checked. This supports proposing a limited diagnostic test, not admission of the active ETERNA image. Physical supply release/ROM behavior remain untested; the development goal remains active.
 
 Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as the ETERNA reference. Research and this report were developed with assistance from OpenAI Codex. This directory contains publication-ready notes; it is not a complete standalone build or a camera-tested release.
