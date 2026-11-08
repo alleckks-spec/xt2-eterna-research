@@ -2,28 +2,39 @@
 
 Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as the ETERNA reference. Research and this report were developed with assistance from OpenAI Codex. This directory contains publication-ready notes; it is not a complete standalone build or a camera-tested release.
 
-## Current result — 8 November 2026
+## Current research — 8 November 2026
 
-An experimental SD boot image has been built locally. It reuses the existing SEPIA selection (public ID 5) for an ETERNA path rather than extending the camera's profile enumeration. The prototype redirects the relevant selection and parameter reads and uses donor tone/gain tables. Two menu descriptors label the replacement `ETERNA (TEST)`; other display or metadata paths may still identify it as SEPIA.
+The current development target is an additional ETERNA slot and loading user-editable color profiles on X-T2 firmware 4.41. This is unfinished firmware research, not a downloadable working release. No physical X-T2 was available.
 
-Bounded execution of selected ARM functions produced passing comparisons:
+A bounded emulator run now executes one compiled C bootstrap in the original root task. It uses original firmware allocation, page protection, cache-maintenance and scheduler functions. The generated runtime and all 29 installed hooks match the offline reference; original page flags, core affinity and stack position are restored. The run stops immediately after bootstrap success, before continuing startup. It does not demonstrate full boot.
 
-| Check | Cases |
-| --- | ---: |
-| Tone/gain comparison | 1,350 |
-| Aggregate blocks | 90 |
-| Development selection | 15 |
-| Parameter reads | 145 |
+The bootstrap used 428 bytes of the existing root stack, leaving 480 bytes to the inspected allocation boundary. Its code and immutable manifest were preloaded by the host into declared laboratory memory. No calls to the observed host memory-write binding occurred during the C call; this instrumentation does not cover previously cached bindings. This is not proof of physical cache coherence or delivery from SD.
 
-In the tested functions and modes, ETERNA matches the donor reference and the other 14 profiles retain stock behavior. These checks do not prove end-to-end image processing or full camera operation.
+The profile path has a strict 3,008-byte container, validation, runtime relocation and staging into a private candidate. Firmware-function tests cover tone, gain and parameter consumers. The file adapter handles inline and deferred callbacks and keeps primary errors separate from cleanup errors. Generation tokens prevent a previously completed candidate from becoming eligible again when the same buffers are reused.
 
-The candidate modifies 8,705 bytes. Its SHA-256 is `0f14244971768d783e09d4eb21fe59e60262ea183b938d31ff1fff170caceddf`. No modified flash-update DAT has been produced for this candidate. The local SD package contains an unchanged official update alongside the experimental boot image.
+Latest bounded checks include:
 
-## Unverified behavior
+| Check | Evidence |
+| --- | --- |
+| Native C bootstrap prefix | One successful call; 29 matching hooks; eight original page policies restored |
+| Reader adapter | 58 host cases, 58 ARM cases and seven native-address ABI fixtures |
+| Private profile pipeline | 33 cases |
+| Generation reuse | 18 cases, with consumer checks at three runtime bases |
+| Failed-open recovery | 10 cases; prior error preserved before retry |
 
-No physical X-T2 was available for this work. Booting this candidate, memory lifetime, menu behavior, JPEG output, preview, movie processing and return to stock operation remain unverified. Code and data currently occupy section alignment/allocation padding; absence of overlap in the inspected image does not establish that these areas remain available throughout camera operation.
+The file tests use explicit filesystem boundary fixtures. They are not successful reads from a mounted camera card. Failed-open retry is permitted only after the audited normal read-only path reports a nonzero status and zero handle, under its exact-once callback contract. Ambiguous handles, pending operations, protocol errors and uncertain cleanup remain quarantined.
 
-The next development task is to validate placement against startup and runtime writes and prepare a narrowly scoped hardware experiment. Full peripheral emulation is not a prerequisite for this work. Computer-editable recipes and additional film simulations remain separate future tasks, not implemented features of this prototype.
+## Remaining integration work
+
+The loader still needs a real resident owner task, a proven way to exclude filesystem mode changes throughout asynchronous operations, and integration of validated candidates with live activation. Read-only mode snapshots do not establish exclusion. Arbitrarily delayed callbacks from an earlier generation are outside the audited native lifecycle contract.
+
+Carrier placement also remains unproven. Static analysis shows that the original raw-section flash request includes the proposed padding, while the existing SD preload helper skips that later transfer and assumes bytes are already resident. Existing runs preload the image from the host. Neither the original SD file-to-RAM transfer nor continuous preservation of the proposed carrier through startup has been demonstrated.
+
+Full startup, end-to-end image processing, preview, JPEG/movie output and physical camera behavior remain unverified. Selected-function comparisons do not establish numerical safety of arbitrary user coefficients.
+
+## Earlier prototype
+
+An earlier local SD experiment replaced SEPIA (public ID 5) with an ETERNA test path. It passed 1,350 tone/gain comparisons, 90 aggregate-block checks, 15 development-selection checks and 145 parameter-read checks in bounded execution. That prototype is separate from the current additional-slot and custom-profile work, and was never camera-tested. It is not the requested completed custom-profile firmware.
 
 ## Reproduction and publication boundary
 
