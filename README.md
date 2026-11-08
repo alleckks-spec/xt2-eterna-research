@@ -4,7 +4,9 @@ Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as t
 
 ## Current research — 8 November 2026
 
-The current development target is an additional ETERNA slot and loading user-editable color profiles on X-T2 firmware 4.41. This is unfinished firmware research, not a downloadable working release. No physical X-T2 was available.
+The current MVP target is fixed X-H1 ETERNA replacing the existing SEPIA slot on X-T2 4.41. Additional slots, user profile files and live replacement are deferred; earlier work is retained. The existing local candidate rebuilds byte-for-byte and now has a checked handoff package and [short hardware procedure](research/minimal-hardware-candidate/README.md). It has not booted on our camera and is not a camera-tested release. No physical X-T2 was available.
+
+The sections below preserve earlier expanded-scope milestones. Their owner/task/file-loading obligations are not prerequisites for this fixed-profile MVP.
 
 A bounded emulator run now executes one compiled C bootstrap in the original root task. It uses original firmware allocation, page protection, cache-maintenance and scheduler functions. The generated runtime and all 29 installed hooks match the offline reference; original page flags, core affinity and stack position are restored. The run stops immediately after bootstrap success, before continuing startup. It does not demonstrate full boot.
 
@@ -44,7 +46,7 @@ A new bounded integration check carries two laboratory profile files through nat
 
 The host explicitly supplies the prepare-to-consumer transition by copying the candidate and writing hooks in isolated memory. Automatic safe activation, an integrated owner lifecycle, mounted-card access and physical output remain unproved. [Reviewed source, exact scope and dependency limits](research/loaded-profile-consumption/README.md) distinguish the executed path from this supplied boundary.
 
-## Remaining integration work
+## Deferred expanded-scope integration work
 
 The loader still needs a real resident owner task, a proven way to exclude filesystem mode changes throughout asynchronous operations, and integration of validated candidates with live activation. Read-only mode snapshots do not establish exclusion. Arbitrarily delayed callbacks from an earlier generation are outside the audited native lifecycle contract.
 
@@ -60,7 +62,7 @@ The native live-value-to-capture producer, durable persistence and physical outp
 
 ## Earlier prototype
 
-An earlier local SD experiment replaced SEPIA (public ID 5) with an ETERNA test path. It passed 1,350 tone/gain comparisons, 90 aggregate-block checks, 15 development-selection checks and 145 parameter-read checks in bounded execution. That prototype is separate from the current additional-slot and custom-profile work, and was never camera-tested. It is not the requested completed custom-profile firmware.
+An earlier local SD experiment replaced SEPIA (public ID 5) with an ETERNA test path. It passed 1,350 tone/gain comparisons, 90 aggregate-block checks, 15 development-selection checks and 145 parameter-read checks in bounded execution. That candidate is now the fixed-profile MVP baseline. It remains separate from the deferred additional-slot and custom-profile work and has never been camera-tested.
 
 ## Reproduction and publication boundary
 
