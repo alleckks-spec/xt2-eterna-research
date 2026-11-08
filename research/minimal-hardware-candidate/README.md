@@ -1,5 +1,7 @@
 # Fixed ETERNA / SEPIA candidate
 
+**Update (2026-11-08):** this HOLD concerns the full active ETERNA image and is an intermediate result. A separate [early delivery/power-request probe](../delivery-probe/README.md) now limits the first experiment before native startup/persistence. Its first-test proposal and residual risks do not qualify the full image or close the development goal.
+
 **Admission: HOLD (2026-11-08). Do not offer the current candidate for hardware testing.** See [safety decision](SAFETY-DECISION.md) for blockers and evidence, and [deferred first-test protocol](HARDWARE-CHECK.txt). First qualify boot/return before any ETERNA capture.
 
 Original research and source developed with OpenAI Codex assistance. Scope: fixed X-H1 2.15 ETERNA in the existing SEPIA slot on X-T2 4.41. No extra slot, profile file loader or live replacement is required.

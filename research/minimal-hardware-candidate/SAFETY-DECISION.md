@@ -1,5 +1,7 @@
 # Sepia→ETERNA: решение о первом испытании, 2026-11-08
 
+**Update (2026-11-08):** this HOLD concerns the full active ETERNA image and is an intermediate result. A separate [early delivery/power-request probe](../delivery-probe/README.md) now limits the first experiment before native startup/persistence. Its first-test proposal and residual risks do not qualify the full image or close the development goal.
+
 **Пока предлагать этот кандидат для аппаратного испытания нельзя.** Офлайн-этап завершён решением HOLD. Это решение о конкретном образе и доступных доказательствах; оно не означает, что SD-загрузка обязательно повредит камеру. Работа подготовлена с помощью OpenAI Codex. Испытатели не привлекались, сборка никому не отправлялась.
 
 ## Зафиксированный кандидат
