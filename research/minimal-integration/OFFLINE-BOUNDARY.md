@@ -93,3 +93,28 @@ late capture/review/shutdown behavior and real ISP/JPEG still need separately
 staged observations. First use the already frozen limited c136 delivery/power
 protocol; success there does not admit a normal full boot of active ETERNA.
 No build was sent to other owners and no testers were contacted.
+
+
+## Named allocator registry follow-up
+
+The earlier lifetime report explicitly left other allocator registries unaudited.
+A separate original audit now checks all12 processing-pool descriptors, both
+fixed OS variable-pool backing arrays, and the optional kernel heap. None overlap
+the fixed carriers. This is additional named-registry evidence, not a proof of
+all future computed allocations.
+
+Original cf0034 creates both OS pools through native49c7c and40f20; the resulting
+16-slot registry contains two populated records with matching requested/backing
+bounds. Original kernel-start caller41ef8..41f58 initializes its optional heap
+at16c014 with size4096, also outside the carriers. No carrier CPU writes were
+observed in these bounded initializations. The processing descriptor inventory
+is static, including matching nonzero-index companion capacity; it does not
+claim all modes or allocations were executed.
+
+`audit_xt2_native_allocator_ranges.py --execute` needs the locally supplied
+workspace, compatible Unicorn runtime and existing native bootstrap/navigation,
+GIC and timer helpers. Imported local Python sources are pinned before/after.
+The static inventory additionally needs capstone and extracted local X-T2 inputs.
+Firmware images, descriptor dumps and generated private reports are not included.
+Parameterized creation/reinitialization, indirect calls and later normal startup
+remain outside this audit. No new firmware image or camera admission resulted.
