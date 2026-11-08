@@ -1,0 +1,17 @@
+# Publish only reviewed original source and documentation.
+*.bin
+*.BIN
+*.dat
+*.DAT
+*.zip
+*.7z
+*.img
+*.rom
+*.elf
+*.o
+*.pyc
+__pycache__/
+.env*
+firmware/
+donor-data/
+private/
