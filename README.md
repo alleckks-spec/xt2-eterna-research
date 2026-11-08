@@ -40,6 +40,12 @@ Carrier placement also remains unproven. Static analysis shows that the original
 
 Full startup, end-to-end image processing, preview, JPEG/movie output and physical camera behavior remain unverified. Selected-function comparisons do not establish numerical safety of arbitrary user coefficients.
 
+## Minimal selection regression
+
+The existing SEPIA-alias image now has a bounded native menu-chain regression: 17 menu selections, 14 preserved profiles, 90 ETERNA output vectors, six mode-visibility cases, five global-parameter branches and 255 preserved non-alias selector inputs. Original conversion and RAM setting readback execute; the actual selected public ID remains5. Patched downstream selectors produce processing9 and development16, with explicit fixture handoffs into their capture inputs.
+
+The native live-value-to-capture producer, durable persistence and physical output remain unverified. The image is unchanged, and these results do not complete the custom-profile-loading firmware. [Verifier, per-transition results and reproduction limits](research/minimal-menu-chain/README.md) are published without firmware or vendor-derived outputs.
+
 ## Earlier prototype
 
 An earlier local SD experiment replaced SEPIA (public ID 5) with an ETERNA test path. It passed 1,350 tone/gain comparisons, 90 aggregate-block checks, 15 development-selection checks and 145 parameter-read checks in bounded execution. That prototype is separate from the current additional-slot and custom-profile work, and was never camera-tested. It is not the requested completed custom-profile firmware.
