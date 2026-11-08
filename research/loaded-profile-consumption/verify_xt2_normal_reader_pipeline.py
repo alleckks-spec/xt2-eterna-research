@@ -23,7 +23,7 @@ def build(d):
   syms={s.name:s['st_value']for s in table.iter_symbols()};sections=[(s['sh_addr'],s.data(),s.name,s['sh_size'])for s in e.iter_sections()if s['sh_flags']&2 and s['sh_size']]
  return sections,syms,dict(elf_sha256=sha(out.read_bytes()),text_bytes=sum(n for a,b,k,n in sections if k=='.text'),bss_bytes=sum(n for a,b,k,n in sections if k=='.bss'),flags=flags,undefined_symbols=0,adapter_seam='XT2_READER_TEST only for unchanged reader TU; xr_test_* functions forward actualpublicFS in separate variant')
 
-def assay(f,sections,syms,blob,manifest,error=False,*,prepared_observer=None):
+def assay(f,sections,syms,blob,manifest,error=False,*,prepared_observer=None,pre_reader_observer=None):
  from verify_profile_selectors import machine,RAM,RETURN
  from unicorn import UC_HOOK_CODE,UC_PROT_READ,UC_PROT_EXEC
  from unicorn.arm_const import UC_ARM_REG_R0,UC_ARM_REG_R1,UC_ARM_REG_R2,UC_ARM_REG_R3,UC_ARM_REG_SP,UC_ARM_REG_LR,UC_ARM_REG_PC
@@ -68,6 +68,8 @@ def assay(f,sections,syms,blob,manifest,error=False,*,prepared_observer=None):
    callbacks.append(dict(entry=hex(pc),status=u.reg_read(UC_ARM_REG_R0),value=u.reg_read(UC_ARM_REG_R1),message_pool_released_before_callback=True))
   if pc in [0x96529c,0x968380,0x9657a0]:branches.append(hex(pc))
  for pc in [0xced3e0,0xced4b4,0xceda34,0xced554,0x959b5c,0x9682b0,0x959d34,0x96a140,0x96f32c,0x96529c,0x968380,0x9657a0,syms['nr_variant_opened'],syms['nr_variant_read_done'],syms['nr_variant_closed']]:u.hook_add(UC_HOOK_CODE,observe,begin=pc,end=pc)
+ if pre_reader_observer is not None:
+  pre_reader_observer(u)
  assert call('nr_variant_bind',0,230,owner,syms['xt2_reader_service'])==0
  assert call(0x958fbc,1)==0 and get(0x9ae8f4)==1
  path=RAM+0x1000;status=RAM+0x2000;u.mem_write(path,b'A:\\XT2PROF.BIN\0')

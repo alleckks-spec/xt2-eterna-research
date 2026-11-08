@@ -32,6 +32,12 @@ This narrows the previous placement gap but does not prove original SD transfer,
 
 Reviewed original entry sources and dependency limits are in [research/stage0](research/stage0/README.md). No binary image, vendor data or complete firmware release is published.
 
+## First data-only publication
+
+A new compiled C bank now extracts validated profile data from the file pipeline and publishes it once through an immutable pointer. In the bounded integration fixture, an operation keeps its original snapshot even when publication occurs between the two bytes of a coefficient and between gain and tone. Later custom aggregate/incremental outputs match the direct-data reference; stock output remains unchanged. Revoking candidate eligibility after sealing prevents publication and custom admission.
+
+The fixture no longer copies an executable profile or writes the 29 planned native hook words after loading. Its dispatchers and operation transport are still supplied by emulator callbacks, and the additional bank memory does not fit the frozen resident layout. Native task/exception propagation, cache coherence, resident allocation, development/public admission and reload remain unfinished. [Original C source, verification and limits](research/first-data-activation/README.md) document this implementation milestone without claiming camera readiness.
+
 ## Loaded profile consumption
 
 A new bounded integration check carries two laboratory profile files through native queue workers, validation and private preparation, then executes the original tone/gain consumers in the same emulator instance. Six custom comparisons and six stock comparisons passed; both custom outputs change with the loaded container in all three selected contexts, while the tested stock profile stays unchanged.
