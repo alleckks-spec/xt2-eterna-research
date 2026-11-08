@@ -32,6 +32,12 @@ This narrows the previous placement gap but does not prove original SD transfer,
 
 Reviewed original entry sources and dependency limits are in [research/stage0](research/stage0/README.md). No binary image, vendor data or complete firmware release is published.
 
+## Loaded profile consumption
+
+A new bounded integration check carries two laboratory profile files through native queue workers, validation and private preparation, then executes the original tone/gain consumers in the same emulator instance. Six custom comparisons and six stock comparisons passed; both custom outputs change with the loaded container in all three selected contexts, while the tested stock profile stays unchanged.
+
+The host explicitly supplies the prepare-to-consumer transition by copying the candidate and writing hooks in isolated memory. Automatic safe activation, an integrated owner lifecycle, mounted-card access and physical output remain unproved. [Reviewed source, exact scope and dependency limits](research/loaded-profile-consumption/README.md) distinguish the executed path from this supplied boundary.
+
 ## Remaining integration work
 
 The loader still needs a real resident owner task, a proven way to exclude filesystem mode changes throughout asynchronous operations, and integration of validated candidates with live activation. Read-only mode snapshots do not establish exclusion. Arbitrarily delayed callbacks from an earlier generation are outside the audited native lifecycle contract.
