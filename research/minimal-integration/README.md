@@ -61,3 +61,22 @@ and should not be uploaded automatically.
 Imported local source dependencies recorded by the accepted15-case run:
 
 `build_eterna_minimal_sd.py`, `build_eterna_payload.py`, `eterna_development_selector.py`, `eterna_parameter_overlay.py`, `eterna_ram_fixture.py`, `eterna_setting_tables.py`, `firmware_analysis.py`, `kernel_gic_initialization.py`, `kernel_timer_initialization.py`, `probe_initialized_elfloader.py`, `probe_native_cpu_memory_bootstrap.py`, `probe_native_font_initialization.py`, `probe_native_kernel_core_handshake.py`, `probe_native_kernel_preinitialization.py`, `probe_native_kernel_start_sequence.py`, `probe_native_overlay_publication.py`, `verify_development_selector_extension.py`, `verify_eterna_minimal_menu_chain.py`, `verify_film_confirmation_route.py`, `verify_film_menu_navigation.py`, `verify_film_routed_commit.py`, `verify_film_visibility.py`, `verify_interpolated_profile_outputs.py`, `verify_native_parameter_builder.py`, `verify_profile_selectors.py`, `verify_tone_table_port.py`, `verify_xt2_minimal_slot_commit.py`, `xpp_clock_model.py`, `xpp_gpio_configuration.py`, `xt2_minimal_boot_guard.py`, `xt2_minimal_slot_assay.py`.
+
+
+## Further native actor and alias checks
+
+See [OFFLINE-BOUNDARY.md](OFFLINE-BOUNDARY.md) for the subsequent actual queue
+and task execution, the precise GPIO/serial4 boundary, and current CPU alias
+inventory. These additions do not upgrade the15-case bounded slot result to a
+capture or full camera boot claim. `verify_xt2_minimal_rebuild.py` records
+consumed input hashes and toolchain versions while rebuilding locally without
+rewriting the delivered images.
+
+The new runners additionally need local `native_vfp_exception.py`,
+`map_missing_ram.py`, `xpp_serial_configuration.py`,
+`xpp_serial_transfer_probe.py`, `probe_native_resident_startup.py` and its
+existing model/helper dependency tree. They are intentionally not bundled as
+an alleged standalone emulator. The local runner pins all imported project
+Python modules before/after each run; generated private reports stay local.
+`xt2_carrier_alias_inventory.py` and its synthetic descriptor check only need
+the included `arm_page_policy.py` and Python standard library.
