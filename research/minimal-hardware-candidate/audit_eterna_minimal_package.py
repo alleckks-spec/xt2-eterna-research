@@ -7,9 +7,10 @@ firmware, donor tables or patch manifest are distributed with this script.
 import argparse
 import hashlib
 import json
+import struct
 from pathlib import Path
 
-IMAGE = '0f14244971768d783e09d4eb21fe59e60262ea183b938d31ff1fff170caceddf'
+IMAGE = '47a9376657501fec7805c0fa17b958dea2b100bfc13652d764a7b73401723751'
 STOCK = 'fff0913c8c9a51870e2e6e0da4aa5408a77c3ed508ea1c6157de0baa890006a2'
 HEADER = 'b1e52216d083b43b430b2abcb880ebf72ca055c0ff9623d23bc03bddcb539351'
 DAT = 'dd02ec5a862cf0e6f03a519a600ed99435efa442848249945b13ca6d78fabb25'
@@ -28,7 +29,9 @@ def audit(candidate, stock_file):
     stock = stock_file.read_bytes()
     image = (candidate / 'ffboot.bin').read_bytes()
     header = (candidate / 'ffsys.bin').read_bytes()
-    dat = (candidate / 'FWUP0010.DAT').read_bytes()
+    require(not any(p.suffix.lower() == '.dat' for p in candidate.iterdir()),
+            'Update DAT must not be present in the SD-test directory')
+    dat = (stock_file.parent / 'FWUP0010.DAT').read_bytes()
     manifest = json.loads((candidate / 'manifest.json').read_text())
     require(digest(stock) == STOCK, 'Wrong stock carrier')
     require(digest(image) == IMAGE == manifest['image_sha256'], 'Wrong candidate')
@@ -37,7 +40,7 @@ def audit(candidate, stock_file):
     require(digest(header) == HEADER == manifest['header_sha256'] and len(header) == 2048,
             'Wrong SD header')
     require(digest(dat) == DAT == manifest['original_dat_sha256'] and len(dat) == 53543964,
-            'DAT is not the original update')
+            'Reference DAT is not the original update')
     require(manifest['stock_sha256'] == STOCK and manifest['alias_id'] == 5
             and manifest['replaced_simulation'] == 'SEPIA'
             and manifest['hardware_verified'] is False, 'Wrong manifest scope')
@@ -52,19 +55,35 @@ def audit(candidate, stock_file):
         replay[address:address + len(new)] = new
     require(replay == image, 'Unlisted or missing candidate changes')
     changed = sum(a != b for a, b in zip(stock, image))
-    require(changed == manifest['changed_bytes'] == 8705, 'Change count differs')
+    require(changed == manifest['changed_bytes'] == 8739, 'Change count differs')
     # Preserve the stock carrier's loader, preloaded-state controls, section table
     # and public-ID conversion table. This does not execute those paths.
     preserved = [(0, 0x100000), (0x950000, 0x950400), (0xCE5050, 0xCE5098),
                  (0xCE4358, 0xCE435C), (0xCE51AC, 0xCE51B0),
-                 (0xFADC58, 0xFADC59), (0xE8BBB4, 0xE8BD04)]
+                 (0xFADC58, 0xFADC59), (0xE8BBB4, 0xE8BD04),
+                 (0xCE323C, 0xCE36AC), (0xC58000, 0xC5B000)]
     require(all(image[a:b] == stock[a:b] for a, b in preserved),
             'Carrier or public conversion path changed')
+    for descriptor in (0xEEA334, 0xEDAAAC, 0xEBCDFC):
+        items, presentation = struct.unpack_from('<II', stock, descriptor + 16)
+        for index in range(100):
+            row, _ = struct.unpack_from('<II', stock, items + 8 * index)
+            if row == 0x7FFFFFFE:
+                break
+            address = presentation + 48 * index
+            require(image[address:address + 48] == stock[address:address + 48],
+                    'Menu presentation differs')
+        else:
+            raise ValueError('Stock menu terminator absent')
     return dict(scope=__doc__, status='PASS: package integrity only',
                 image_sha256=IMAGE, image_size=len(image), changed_bytes=changed,
                 manifest_sha256=digest((candidate / 'manifest.json').read_bytes()),
                 header_sha256=HEADER, original_dat_sha256=DAT,
+                update_dat_included=False,
                 edits_replayed=len(manifest['edits']), carrier_controls_preserved=True,
+                stock_menu_presentation_preserved=True,
+                global_parameter_reader_preserved=True,
+                global_flash_write_protection=False,
                 rom_transfer_tested=False, patch_lifetime_tested=False,
                 continuous_capture_tested=False, hardware_verified=False)
 

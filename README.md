@@ -6,6 +6,10 @@ Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as t
 
 The current MVP target is fixed X-H1 ETERNA replacing the existing SEPIA slot on X-T2 4.41. Additional slots, user profile files and live replacement are deferred; earlier work is retained. The existing local candidate rebuilds byte-for-byte and now has a checked handoff package and [short hardware procedure](research/minimal-hardware-candidate/README.md). It has not booted on our camera and is not a camera-tested release. No physical X-T2 was available.
 
+
+
+The safety revision supersedes the earlier candidate: shared parameter reads remain stock, 18 color callsites use private readers, stock menu presentation is restored, and update DAT files are excluded from the SD-test directory. Bounded numeric/store checks pass; full boot, physical capture and global flash-write protection remain unproved or absent. [Current changes and precise safety limits](research/minimal-hardware-candidate/README.md).
+
 The sections below preserve earlier expanded-scope milestones. Their owner/task/file-loading obligations are not prerequisites for this fixed-profile MVP.
 
 A bounded emulator run now executes one compiled C bootstrap in the original root task. It uses original firmware allocation, page protection, cache-maintenance and scheduler functions. The generated runtime and all 29 installed hooks match the offline reference; original page flags, core affinity and stack position are restored. The run stops immediately after bootstrap success, before continuing startup. It does not demonstrate full boot.
@@ -54,7 +58,7 @@ Carrier placement also remains unproven. Static analysis shows that the original
 
 Full startup, end-to-end image processing, preview, JPEG/movie output and physical camera behavior remain unverified. Selected-function comparisons do not establish numerical safety of arbitrary user coefficients.
 
-## Minimal selection regression
+## Historical minimal selection regression
 
 The existing SEPIA-alias image now has a bounded native menu-chain regression: 17 menu selections, 14 preserved profiles, 90 ETERNA output vectors, six mode-visibility cases, five global-parameter branches and 255 preserved non-alias selector inputs. Original conversion and RAM setting readback execute; the actual selected public ID remains5. Patched downstream selectors produce processing9 and development16, with explicit fixture handoffs into their capture inputs.
 
