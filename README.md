@@ -24,6 +24,14 @@ Latest bounded checks include:
 
 The file tests use explicit filesystem boundary fixtures. They are not successful reads from a mounted camera card. Failed-open retry is permitted only after the audited normal read-only path reports a nonzero status and zero handle, under its exact-once callback contract. Ambiguous handles, pending operations, protocol errors and uncertain cleanup remain quarantined.
 
+## Image-contained bootstrap milestone
+
+A new local research image now contains a 488-byte entry wrapper and the C bootstrap linked at its proposed carrier address. Fifteen relocation cases and eleven wrapper ABI/failure cases passed in isolated fixtures. A bounded run from that host-preloaded image executed the wrapper and original native publication/allocation services without a host installer, matched the runtime and all 29 hooks, and preserved the original call's registers, stack and flags. It stopped explicitly at the original return boundary. The active mapping allowed wrapper execution, and monitored immutable carrier bytes survived from host preload to entry.
+
+This narrows the previous placement gap but does not prove original SD transfer, physical cache visibility or lifetime beyond the prefix. The image does not load user profile files. A separate 10,000-round continuation reached an unresolved flash-completion wait before UI initialization; absence of reported emulator faults was not treated as successful full boot.
+
+Reviewed original entry sources and dependency limits are in [research/stage0](research/stage0/README.md). No binary image, vendor data or complete firmware release is published.
+
 ## Remaining integration work
 
 The loader still needs a real resident owner task, a proven way to exclude filesystem mode changes throughout asynchronous operations, and integration of validated candidates with live activation. Read-only mode snapshots do not establish exclusion. Arbitrarily delayed callbacks from an earlier generation are outside the audited native lifecycle contract.
