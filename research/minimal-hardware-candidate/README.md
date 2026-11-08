@@ -1,42 +1,32 @@
-# Fixed ETERNA / SEPIA: narrowed parameter reads and safety limits
+# Fixed ETERNA / SEPIA candidate
 
-Original code and research developed with OpenAI Codex assistance. Current scope is fixed X-H1 2.15 ETERNA replacing SEPIA on X-T2 4.41. No additional slot, profile file loader or live replacement is required.
+Original research and source developed with OpenAI Codex assistance. Scope: fixed X-H1 2.15 ETERNA in the existing SEPIA slot on X-T2 4.41. No extra slot, profile file loader or live replacement is required.
 
-The current local image is `47a9376657501fec7805c0fa17b958dea2b100bfc13652d764a7b73401723751` (46,505,984 bytes). It supersedes the previous `0f142449...` candidate; the previous ZIP is retained locally as legacy. No new ZIP was produced.
+Current local image SHA-256: `c1aee308e0b6c54dfede3de4c48885223365b2b8e90c282c74d87a112d58fc10` (46,505,984 bytes). It is **not camera-tested or certified safe**. No new ZIP was produced.
 
-## Concrete changes
+## Implemented
 
-- Removed two experimental presentation-record replacements and embedded captions. All stock menu records/icons/labels stay intact: select **SEPIA**.
-- Removed the global parameter-reader hook. Only 18 checked direct calls in the known color functions now use private byte/halfword/signed-halfword readers. Misses call the original reader; the general parameter entry and shared scalar wrappers remain byte-identical to stock. This is callsite isolation, not a new global current-profile flag or a task-scope framework.
-- The builder verifies each original call target and independent fixed write bounds. Its checks are not merely an allowlist derived from its own emitted writes.
-- The SD-test directory contains only the two boot files plus local notes/manifest. The builder no longer includes an update DAT; the integrity gate rejects any `.dat` in this directory. The official DAT remains a pinned local reference. This removes an avoidable updater input, not the firmware's ability to write flash.
+- Stock menu labels/icons/records remain intact: select **SEPIA**.
+- ETERNA tone, gain and color-parameter changes are fixed in the image. The general parameter reader remains stock; 18 checked color-call sites use private readers.
+- Independent builder bounds constrain writes. The SD experiment excludes update DAT files, and its host integrity gate rejects them.
+- A 168-byte stackless check in existing unused early-entry space checks every functional patch span before the original reset continuation. Three clean-state comparisons and 98 injected failures pass in bounded execution. Failure masks interrupts and stops before the original LED body/startup; it does not fabricate successful flash writes or attempt rollback.
 
-## Verification
+The numeric body is byte-identical to the preceding `47a93766...` image. That body passed 1,350 tone/gain, 90 aggregate, 15 development, 120 matrix/four-coefficient checks and private/stock reader comparisons. Its observed numeric CPU stores stayed within fixture RAM. Those are bounded checks, not full image processing or physical output.
 
-The exact current image passed 1,350 tone/gain cases, 90 aggregate checks, 15 development checks and 120 matrix/four-coefficient cases. ETERNA outputs match X-H1 in the declared contexts; 14 other supported profiles preserve tested results. Each of 145 overridden/sample keys was checked twice: private reader behavior and original stock behavior through the shared reader. Three stock menus still commit/read back public ID5 and live value5 with explicit settings-snapshot/synchronization fixtures; the capture/development producer handoffs remain unproved.
+[Early gate source, reverse engineering of Fuji practices, exact verification and limitations](BOOT-GUARD.md) distinguish what the check establishes from what it cannot.
 
-All 1,036,469 observed CPU stores during these numeric/selector checks stayed within declared laboratory context/output/stack RAM. No MMIO or flash devices were modeled successful. This bounds these calls; it does not monitor DMA or the full boot/capture pipeline. These checks were repeated because parameter routing and safety instrumentation changed, not to repackage previous results.
+## Missing qualification
 
-## What is not implemented or established
+There is no global internal-flash write prohibition or automatic stock rollback. The early checker/entry must themselves work, and it does not monitor later CPU/DMA overwrites. ROM file delivery, real cache/watchdog/multicore conditions, continuous UI-to-capture/development propagation, full boot, ISP/JPEG output and recovery after card removal remain unverified. Ordinary stock persistence/update paths still exist; SD boot is not a read-only sandbox.
 
-There is **no global internal-flash write inhibition** and no boot-time integrity gate/automatic stock fallback if the carrier is overwritten. The native storage/updater paths remain present. Earlier synthetic erased-store execution reached native page programming and sector erasure; this is a counterexample to calling SD boot read-only, not a physical observation on this candidate.
+The [external X-T2 stock SD report](https://github.com/justjake/fujimod/pull/163) supports the method, not this image. See [hardware notes](HARDWARE-CHECK.txt); keep DAT off the experiment card and do not enter firmware update mode.
 
-Original ROM transfer, carrier lifetime, continuous native UI-to-capture/development propagation, sensor/ISP/JPEG behavior, reboot and card-removal recovery remain unverified. Low loader, inspected flash-driver region and shared parameter readers are unchanged; unchanged bytes do not prove unreachable flash writers or overall hardware safety. No zero-brick guarantee or ready-for-camera safety certification is claimed.
-
-The external [X-T2 stock SD boot report](https://github.com/justjake/fujimod/pull/163) supports the boot method, not this patch. FujiMod's [recovery procedure](https://www.fujimod.com/recovery/) explicitly includes a separate flashing step; recovery has not been demonstrated on our setup. Use [the revised hardware notes](HARDWARE-CHECK.txt) only after accepting these limits. Keep DAT files off the experiment card, and do not enter firmware update mode.
-
-## Original source / local inputs
-
-The adjacent standard-library integrity gate is runnable with locally supplied inputs:
+## Local tooling
 
 ```sh
 python3 audit_eterna_minimal_package.py /path/to/eterna-minimal-sd-candidate /path/to/stock/ffboot.bin
 ```
 
-The candidate needs `ffboot.bin`, `ffsys.bin` and its private `manifest.json`; the stock directory must also supply the original `FWUP0010.DAT` reference. No firmware, coefficients, raw manifest or copied firmware instructions are published.
+This standard-library gate requires local `ffboot.bin`, `ffsys.bin`, private `manifest.json`, and the stock directory's original DAT reference. It does not distribute or build firmware.
 
-The adjacent numeric verifier is original source for inspection, not a standalone build. In the complete workspace it needs the updated local minimal builder/private-read integration, shared parameter overlay installer, profile/table/development/aggregate helpers, locally extracted X-T2/X-H1 inputs, prior measured dependency reports and Capstone/Unicorn TCI. The private scalar wrappers are constructed from locally supplied stock instructions and are deliberately excluded here. Local command:
-
-```sh
-LIBUNICORN_PATH="$PWD/.toolchains/unicorn-tci" UC_IGNORE_REG_BREAK=1 .venv/bin/python scripts/verify_eterna_minimal_sd.py
-```
+The adjacent numeric verifier and guard sources need the full local workspace and its private inputs/dependencies, detailed in BOOT-GUARD.md. No firmware, coefficients, raw manifest or copied firmware instructions are published. This is not a standalone firmware reproduction package.

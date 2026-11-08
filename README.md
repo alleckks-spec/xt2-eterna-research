@@ -4,6 +4,8 @@ Independent research targeting Fujifilm X-T2 firmware 4.41, using X-H1 2.15 as t
 
 ## Current research — 8 November 2026
 
+A 168-byte early corruption gate now checks every functional patch span before the original reset continuation. Three clean entry comparisons and 98 injected-failure checks pass in bounded execution; the numeric body is unchanged. It is not a global flash lock or a no-brick guarantee. [Original implementation, Fuji practice review and limits](research/minimal-hardware-candidate/BOOT-GUARD.md).
+
 The current MVP target is fixed X-H1 ETERNA replacing the existing SEPIA slot on X-T2 4.41. Additional slots, user profile files and live replacement are deferred; earlier work is retained. The existing local candidate rebuilds byte-for-byte and now has a checked handoff package and [short hardware procedure](research/minimal-hardware-candidate/README.md). It has not booted on our camera and is not a camera-tested release. No physical X-T2 was available.
 
 

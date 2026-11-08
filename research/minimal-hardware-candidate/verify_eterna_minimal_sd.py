@@ -23,6 +23,7 @@ def main():
     baseline = runtime('xt2-4.41', False)
     donor = runtime('xh1-2.15', False)
     actual.mem_map(DATA, 0x4000)
+    actual.mem_map(0x103000, 0x1000)  # Early guard is tested separately, not executed here.
     actual.mem_write(DATA, image[DATA:DATA+0x4000])
     for edit in manifest['edits']:
         a, data = edit['address'], bytes.fromhex(edit['new'])

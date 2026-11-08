@@ -10,7 +10,7 @@ import json
 import struct
 from pathlib import Path
 
-IMAGE = '47a9376657501fec7805c0fa17b958dea2b100bfc13652d764a7b73401723751'
+IMAGE = 'c1aee308e0b6c54dfede3de4c48885223365b2b8e90c282c74d87a112d58fc10'
 STOCK = 'fff0913c8c9a51870e2e6e0da4aa5408a77c3ed508ea1c6157de0baa890006a2'
 HEADER = 'b1e52216d083b43b430b2abcb880ebf72ca055c0ff9623d23bc03bddcb539351'
 DAT = 'dd02ec5a862cf0e6f03a519a600ed99435efa442848249945b13ca6d78fabb25'
@@ -55,7 +55,7 @@ def audit(candidate, stock_file):
         replay[address:address + len(new)] = new
     require(replay == image, 'Unlisted or missing candidate changes')
     changed = sum(a != b for a, b in zip(stock, image))
-    require(changed == manifest['changed_bytes'] == 8739, 'Change count differs')
+    require(changed == manifest['changed_bytes'] == 8858, 'Change count differs')
     # Preserve the stock carrier's loader, preloaded-state controls, section table
     # and public-ID conversion table. This does not execute those paths.
     preserved = [(0, 0x100000), (0x950000, 0x950400), (0xCE5050, 0xCE5098),
@@ -83,6 +83,7 @@ def audit(candidate, stock_file):
                 edits_replayed=len(manifest['edits']), carrier_controls_preserved=True,
                 stock_menu_presentation_preserved=True,
                 global_parameter_reader_preserved=True,
+                early_boot_integrity_gate_present=True,
                 global_flash_write_protection=False,
                 rom_transfer_tested=False, patch_lifetime_tested=False,
                 continuous_capture_tested=False, hardware_verified=False)
