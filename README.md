@@ -4,6 +4,10 @@
 
 The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 through the ordinary XPP builder and recovery composer. The standalone Sepia→ETERNA direction below is historical and has been superseded.
 
+**Native commit/cancel and save-error handling are now checked; successful writing is still open.** Preview/cancel do not request saving; a real bank checkpoint requests generation1 once. The existing encoder produces166-byte ETERNA JSON and native mode1 reaches w-open, but the supplied read-FS fixture lacks the driver registration required for writes. Actual native refusal returns callback5; failed1/completed0/dirty state is preserved and file resources/callbacks retire. No readiness/registration value or success reply is fabricated; runtime unchanged. [Original checker, exact refusal and next bootstrap prerequisite](research/fujimod-port/COMMON_SETTINGS_WRITE.md).
+
+Saved-choice restore evidence follows:
+
 **Supplied saved-choice JSON now restores all six immutable profiles and card_1 through native settings I/O and the existing codec.** Real still assembly uses the restored choice:24 built-in group comparisons match the supplied library; card_1 retains its key while unavailable, then applies its recipe after catalog/native UI publication. The checker establishes these results without calling a selection setter. Nine cases include two film-file rejection cases; settings ownerfound1/loads1/error0, file resources/callbacks retire and three timer holds remain. Same runtime/ELF. Lower file data/metadata and native UI/calibration/profile boundaries remain explicit; settings writing, power-cycle persistence, full startup and camera are unproved. [Original checker and exact scope](research/fujimod-port/COMMON_SETTINGS_RESTORE.md).
 
 Earlier policy-start milestone covered native defaults:
