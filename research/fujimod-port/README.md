@@ -21,6 +21,10 @@ Exact artifact passes33 JPEG,356film+99identity,3film lists/6captions, NR43/3
 and ELF→SD correspondence. No camera or whole service/startup qualification.
 [Original adaptation, builder, checker and dependency/evidence limits](TIMER_RESTART.md).
 
+## Existing loader: parser and native retry
+
+The existing film loader now builds with its actual parser/schema/publisher and the X-T2 cardio/timer adapters. A shared-parser XPP icon-reference compile failure is corrected using the existing XPP constants. Three parser cases and the native timer → directory error → loader failure → ten-tick retry chain pass in a separate component. Scratch stacks, explicit REC/device fixtures and native logical tick calls are not timer-task scheduling or mounted FAT; card rows/mutable processing and the common SD remain unchanged. [Original tools, executed chain and exact limits](FILM_LOADER_COMPONENT.md).
+
 ## Separate components: directory listing and UI callback queue
 
 The directory component now preserves native listing/readiness errors instead of
