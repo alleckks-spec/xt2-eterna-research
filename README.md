@@ -12,6 +12,8 @@ The next card-film prerequisite exposed a UI ABI difference: X-T2 copies a76-byt
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 
+The next directory dependency now has a bounded adaptation: X-T2 uses listing commands0x1377/0x1378, and the existing XPP callback needs its existing bank/queue-hold mechanism to keep an abandoned listing from corrupting a new one. Both the original counterexample and corrected component pass through native media/kernel queues. Directory records/callback delivery remain supplied inputs; mounted FAT, native details layout, workers and full card-film integration are open. The common SD candidate is unchanged. [Original minimal adapters and exact evidence](research/fujimod-port/CARDIO_LISTING.md).
+
 ## Historical research (superseded scope)
 
 **First-stage readiness:** the unchanged `c136d6d7` diagnostic is engineering-admitted for its [single limited first test](research/delivery-probe/FIRST-TEST.txt), subject to the owner's acceptance of the stated residual risks. This is separate from the active ETERNA HOLD. The active image now uses an [81,440-byte compact check](research/minimal-data-protection/README.md), reduced from 780,916 bytes within the same 168-byte reservation; 110 targeted cases pass. No camera test is claimed. Offline placement and live-to-capture integration remain development tasks, not automatically blocked by camera availability.

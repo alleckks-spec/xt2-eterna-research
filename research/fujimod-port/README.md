@@ -21,7 +21,16 @@ Exact artifact passes33 JPEG,356film+99identity,3film lists/6captions, NR43/3
 and ELF→SD correspondence. No camera or whole service/startup qualification.
 [Original adaptation, builder, checker and dependency/evidence limits](TIMER_RESTART.md).
 
-## Separate component: existing UI callback queue
+## Separate components: directory listing and UI callback queue
+
+The next existing dependency, directory listing, also has a bounded component:
+X-T2 commands1377/1378 replace X-T20's1370/1371. The original callback corrupts
+a new job after abandonment and leaves its old bank orphaned. Reusing the
+existing bank callbacks and queue hold fixes that sequence without new buffers
+or services. Native media constructors/sender/queue execute; directory entries
+and callback delivery are explicit fixtures. Native FAT details layout, workers,
+concurrent cancellation and complete card-film integration remain open. Common
+SD candidate is unchanged. [Original tools and precise scope](CARDIO_LISTING.md).
 
 The X-T2 active UI transport needs68 payload bytes (76-byte packet), where the
 X-T20 source provides44 (52-byte packet). The adapted original queue now passes
