@@ -7,6 +7,10 @@ historical research, not the current implementation plan.
 
 ## Card processing: native central assembly passes; full lifecycle OPEN
 
+**The actual X-T2 policy hook now starts the common artifact's modules and existing services.** Four init/two late functions run once; forbidden-mode/re-entry checks and nine stock-policy returns pass. The existing settings service initially owns the shared file channel: native missing-file status6 applies defaults, then retained storage workers continue into the film/UI/actual-still chain. Valid JSON, malformed JSON and native read error5 cases pass; three reusable timer holds remain. No manual mod-init loop, manual loader boot, busy bypass or kernel success substitute is used. Native constructors/UI1/data/FS boundaries remain explicit; this is not scheduled first-call/full boot, settings persistence, physical SD or camera evidence. [Original setup/checker and exact limits](COMMON_LATE_START.md).
+
+Earlier common-file milestone used explicit manual startup:
+
 **The supplied file-boundary chain now reaches selected native still parameters in the common ELF.** Actual native open/read/close and retained worker loops feed the existing parser/publisher; native UI dispatch shows the row, and the selected still body produces all four groups matching original JSON. Malformed JSON and native read error5 are rejected; file resources/callbacks retire, with two reusable timer holds remaining. Only the existing three lower filesystem hooks and post-FAT frame supply data; this is not a mounted card, scheduled capture, full startup or camera. Runtime/ELF unchanged. [Original integration checker and exact boundaries](COMMON_CARD_FILE.md).
 
 Earlier native still qualification follows:
