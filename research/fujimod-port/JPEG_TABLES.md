@@ -48,6 +48,39 @@ restores the frontend's prior target file after building. Use a fresh `--output`
 directory to preserve previously checked artifacts. Reused film/NR checks accept
 the new word/init counts explicitly; their earlier defaults remain unchanged.
 
+## Native descriptor setup and first submit
+
+`verify_jpeg_max_producer.py` extends the evidence on the **same unchanged ELF**.
+It runs five original caller/setup prefixes and 15 original first submissions.
+The inspected still-tag caller is `0x2a79c14`; the untagged comparison caller is
+`0x2a9d35c`. Both enter native setup `0x2a75768`, factory `0x2a203a0` and request
+initializer `0x2a231fc`. The checker supplies camera-info geometry/pointer only
+for the first caller, preserving its native flag-setting instructions.
+
+The native code constructs thumbnail, primary and secondary requests. It writes
+attempts=10, kind and tag; the first-submit entry `0x2a233e0` sets index=1 and
+calls submitter `0x2a2336c`. CPU-write provenance pins each of those fields to its
+native writer. Request tag/kind/attempts/index/scale are never supplied by the
+host. A declared two-pointer worker header links each original request to the
+first-submit function boundary; scheduling and worker ownership are not proved.
+
+Only the two primary requests with ULTRAFINE/ULTRAFINE+RAW receive scale16 and
+all-ones tables. Thumbnail/secondary, stock FINE/FINE+RAW and the untagged branch
+retain stock computed scales. In this fixture the stock primary scale is80;
+the native values are used, rather than the earlier table-boundary test's
+supplied scale64. Native history is first written by the submitter, with only
+the intended two primary values subsequently changed by the mod.
+
+The check stops **before encoder entry `0x15b2108` executes**. It adds no device
+reply or peripheral model. It verifies context canaries, unchanged calibration
+and scaler write extents. Neighboring stock parameter records beside the table
+buffers are preserved, not overwritten with test canaries. Geometry, REC mode,
+calibration/transport, manual init and worker headers remain explicit fixtures.
+These inspected setup prefixes/first submissions qualify tag propagation and
+first-attempt behavior; the rest of capture, retries, encoder/files, overlay and
+service lifetime remain open. The integration checker depends on the existing
+local helpers/inputs; it is not a standalone public build.
+
 ## Result
 
 The X-T20 table-preparation entry at `0x292b2e8` has a unique corresponding
@@ -98,8 +131,9 @@ explicit prerequisites.
 
 ## Remaining port work
 
-Qualify the real capture descriptor producers, first-submit/retry chain and
-overlay delivery/lifetime before claiming a working JPEG capture path. Whole
+Qualify capture beyond the inspected setup prefixes, actual worker ownership,
+retry/encoder chain and overlay delivery/lifetime before claiming a working JPEG
+capture path. Whole
 film-context writers/copies and startup/card/settings/timer lifecycle also remain
 open. The six-film context gate is not erased by passing JPEG component checks.
 

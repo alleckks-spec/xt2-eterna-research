@@ -6,7 +6,7 @@ The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 thro
 
 The current ordinary X-T2 candidate contains six immutable films, NR and the existing JPEG Max XPP module. Its exact ELF passes 33 native JPEG selection/table cases, 356 film cases, 99 context-identity regressions, three film lists/six caption boundaries, NR43/3 and 63-word ELF→SD correspondence. JPEG Max needs only the X-T2 quality property and target/menu bindings; footprint is 148,912 / 196,608 bytes. Complete capture/overlay/writer/copy/service lifecycle and hardware remain unqualified; this is not a completed or camera-accepted port. [Current evidence, original tooling and limitations](research/fujimod-port/README.md).
 
-The underlying original X-T2 table-preparation function separately passes 18 bounded native cases, including all-ones tables at scale 16. [JPEG Max adaptation, binding evidence and original standalone checker](research/fujimod-port/JPEG_TABLES.md).
+On the unchanged ELF, five native caller/setup prefixes and 15 first submissions now pass as well: native code creates request tag/kind/attempts and sets the first index; only the selected primary requests receive scale16. Geometry/worker-header inputs remain explicit, and execution stops before the encoder. The underlying table-preparation function separately passes18 cases. [JPEG Max adaptation, evidence and original checkers](research/fujimod-port/JPEG_TABLES.md).
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 

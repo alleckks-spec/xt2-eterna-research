@@ -14,10 +14,12 @@ lists/six caption boundaries, and NR43/3. All 63 ELF/region/SD edits match.
 Footprint is 148,912 / 196,608 bytes (+3,824). Exact ELF SHA-256:
 `8bea01979955b1e751643cb1201975adc553e9efe2eafa5ef327fdc990c013eb`.
 
-These checks use manual init and supplied configuration/request boundaries.
-JPEG quality list copies are checked; no full JPEG UI dispatcher, real capture
-descriptor/encoder, overlay lifetime, file/settings/timer startup or camera is
-qualified. The whole film-context lifecycle gate also stays open.
+On that same ELF, a further check runs five native caller/setup prefixes and 15
+first submissions. Native code creates tag/kind/attempts and sets index; only
+the two selected primary requests receive scale16. The worker header and geometry
+are declared fixtures, and execution stops before the encoder. Request fields
+are not host-supplied. Full capture/worker/retry/encoder/overlay/service lifecycle
+and camera remain unqualified, as does the whole film-context lifecycle.
 [Exact artifacts, evidence, original tools and dependencies](JPEG_TABLES.md).
 
 ## Previous context-bound candidate — native lifecycle OPEN
