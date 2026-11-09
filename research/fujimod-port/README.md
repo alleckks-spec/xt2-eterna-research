@@ -7,6 +7,10 @@ historical research, not the current implementation plan.
 
 ## Card processing: native central assembly passes; full lifecycle OPEN
 
+**The supplied file-boundary chain now reaches selected native still parameters in the common ELF.** Actual native open/read/close and retained worker loops feed the existing parser/publisher; native UI dispatch shows the row, and the selected still body produces all four groups matching original JSON. Malformed JSON and native read error5 are rejected; file resources/callbacks retire, with two reusable timer holds remaining. Only the existing three lower filesystem hooks and post-FAT frame supply data; this is not a mounted card, scheduled capture, full startup or camera. Runtime/ELF unchanged. [Original integration checker and exact boundaries](COMMON_CARD_FILE.md).
+
+Earlier native still qualification follows:
+
 **Actual native still body now passes on the unchanged common ELF.** Nine real still parameter assemblies cover stock, all six immutable profiles (24 group comparisons against the supplied library) and two original card JSON profiles (independent matrix/curve/chroma/luma expectations). Native slots/context identities and reader release pass; no stock-trampoline or kernel success substitute is used. Native profile/settings/calibration and borrowed UI1 inputs remain explicit fixtures; this is not capture scheduling, sensor/encoder/JPEG, mounted FAT, full startup/lifetime or camera evidence. [Original checker and exact boundaries](NATIVE_STILL.md).
 
 Earlier card-processing milestone (the separate still checker below closes its native-body gap):
