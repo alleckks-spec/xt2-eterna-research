@@ -316,3 +316,10 @@ script's default is `modular-build-unverified`, not an arbitrary later rebuild.
 The NR case engine (`verify_nr_candidate`) and resident constants/helper
 (`build_resident_reservation`) remain local dependencies. No private inputs or
 raw generated manifests are included here.
+
+## Existing SDK SD backend
+
+[Dependency check](EXISTING_SDK_SD.md) and [original probe](probe_existing_sdk_sd.py):
+the pinned emulator-enabled SDK ran an authored Cortex-A7 program through 11 SD
+commands and a byte-exact 512-byte PIO read. No new SD model was required.
+This is not X-T2 firmware execution or a successful settings write.
