@@ -4,7 +4,7 @@
 
 The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 through the ordinary XPP builder and recovery composer. The standalone Sepia→ETERNA direction below is historical and has been superseded.
 
-The latest separate experiment transfers all six original built-in films and both RGB hooks through the ordinary two-mod build. It passes 356 bounded output/guard cases, six choices in three native lists, six caption boundaries, the existing 43 NR cases and ELF→SD correspondence. The upstream shared recipe latch still has a reproduced cross-context counterexample: this gate remains OPEN and the package is not camera-accepted. The earlier context-bound one-film baseline is preserved. [Current evidence, original verification tools and limitations](research/fujimod-port/README.md).
+A small X-T2 model adapter now keeps immutable recipe identity with each inspected native processing context instead of a shared recipe pointer. The exact new ordinary ELF passes the existing 356 cases, 99 context-identity regressions, three film lists/six caption boundaries, 43 NR cases and 54-word ELF→SD correspondence. The former A/B mixing case now preserves A's output. Complete native writer/copy/service lifecycle and hardware remain unqualified; this is not a completed or camera-accepted port. [Current evidence, original identity logic and verification tools](research/fujimod-port/README.md).
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 

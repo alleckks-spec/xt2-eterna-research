@@ -32,7 +32,8 @@ LAYOUTS={'matrix':(0x156fad8,20),'curve':(0x15703f8,0x44),'luma':(0x156b7d4,0x80
          'still':(0x1570668,0x100),'chroma':(0x156af80,50)}
 
 
-def main():
+def main(build_directory=BUILD, output_directory=OUT, context_identity=False):
+    BUILD=Path(build_directory);OUT=Path(output_directory)
     assert Path(uclib._name).resolve()==(ROOT.parents[1]/'.toolchains/unicorn-tci/libunicorn.2.dylib').resolve()
     verify_card(BUILD,54)
     sections,symbols,manifest=load(BUILD,54)
@@ -248,25 +249,81 @@ def main():
     select(0);profile(actual);before=output(actual,'matrix')
     select(1);profile(actual,at=RAM+0x400)
     after=output(actual,'matrix')
-    assert before!=after and actual.mem_read(RAM+0x52,1)==b'\x09'
+    assert actual.mem_read(RAM+0x52,1)==b'\x09'
+    assert (before==after) if context_identity else (before!=after)
     counterexample=dict(supplied_order=['A ETERNA context','A matrix','B Classic Neg context','A matrix'],
-        a_slot_unchanged=True,a_output_changed=True,before_sha256=sha(before),after_sha256=sha(after),
-        actual_task_overlap_observed=False,gate='OPEN: original shared-latch contract is not qualified')
+        a_slot_unchanged=True,a_output_changed=before!=after,before_sha256=sha(before),after_sha256=sha(after),
+        actual_task_overlap_observed=False,gate=('Bounded independent-context PASS; native lifetime OPEN' if context_identity else 'OPEN: original shared-latch contract is not qualified'))
+    identity_checks=[]
+    if context_identity:
+        expected_contexts=[]
+        for index in range(6):
+            select(index);at=RAM+0x1000+index*0x200;profile(actual,at=at)
+            assert bytes(actual.mem_read(at+0x145,3))==bytes([index+1,0x58,0x54])
+            expected_contexts.append({kind:output(actual,kind,context=at) for kind in LAYOUTS})
+        select(None);profile(actual,at=RAM+0x400,stored=3)
+        for index,expected in enumerate(expected_contexts):
+            at=RAM+0x1000+index*0x200
+            for kind in LAYOUTS:
+                assert output(actual,kind,context=at)==expected[kind],('context identity',index,kind)
+                identity_checks.append(dict(test='six retained contexts after stock construction',index=index,kind=kind,pass_check=True))
+        copied=RAM+0x6000;source=RAM+0x1000
+        actual.mem_write(copied-16,b'\xcc'*(0x148+32))
+        invoke_checked(actual,0xcf2bbc,copied,source,0x148)
+        assert bytes(actual.mem_read(copied,0x148))==bytes(actual.mem_read(source,0x148))
+        assert bytes(actual.mem_read(copied-16,16))==bytes(actual.mem_read(copied+0x148,16))==b'\xcc'*16
+        for kind in LAYOUTS:
+            assert output(actual,kind,context=copied)==expected_contexts[0][kind]
+            identity_checks.append(dict(test='original memcpy of native-size context preserves recipe',kind=kind,pass_check=True,actual_capture_copy_proven=False))
+        # Execute the real second mapper caller, not a fabricated LR.
+        select(4);settings=RAM+0x7000;actual.mem_write(settings,bytes(0x100))
+        actual.reg_write(UC_ARM_REG_R4,copied);actual.reg_write(UC_ARM_REG_R5,settings)
+        actual.reg_write(UC_ARM_REG_SP,RAM+0xd000)
+        actual.emu_start(0x157b3b8,0x157b3d8,count=200000)
+        assert actual.reg_read(UC_ARM_REG_PC)==0x157b3d8
+        assert bytes(actual.mem_read(copied+0x145,3))==bytes([5,0x58,0x54])
+        for kind in LAYOUTS:
+            assert output(actual,kind,context=copied)==expected_contexts[4][kind]
+            identity_checks.append(dict(test='native aggregate mapper caller',kind=kind,borrowed_frame=True,pass_check=True))
+        # The tagged write remains inside the positively sized native object.
+        exact=RAM+0x8000;actual.mem_write(exact-16,b'\xcc'*(0x148+32))
+        invoke_checked(actual,0x15797d8,exact)
+        assert bytes(actual.mem_read(exact,0x148))==bytes(0x148)
+        invoke_checked(actual,0x157a0fc,exact);invoke_checked(actual,0x157ac60,exact,0)
+        assert bytes(actual.mem_read(exact+0x145,3))==bytes([5,0x58,0x54])
+        assert bytes(actual.mem_read(exact-16,16))==bytes(actual.mem_read(exact+0x148,16))==b'\xcc'*16
+        identity_checks.append(dict(test='native clear extent and qualified write fit exactly0x148',pass_check=True))
+        # A foreign caller with only a byte output never receives a tail write.
+        bare=RAM+0x7800;actual.mem_write(bare-16,b'\xcc'*0x220)
+        invoke_checked(actual,0x157a5d8,bare,0)
+        assert bytes(actual.mem_read(bare-16,16))==b'\xcc'*16
+        assert bytes(actual.mem_read(bare,0x210))==b'\x00'+b'\xcc'*0x20f
+        identity_checks.append(dict(test='unqualified byte-only mapper caller remains stock',pass_check=True))
+        profile(stock,slot=9)
+        for malformed in (bytes([0,0x58,0x54]),bytes([7,0x58,0x54]),bytes([1,0,0x54]),bytes([1,0x58,0])):
+            actual.mem_write(copied+0x145,malformed)
+            for kind in LAYOUTS:
+                assert output(actual,kind,context=copied)==output(stock,kind),('malformed recipe tag',malformed.hex(),kind)
+                identity_checks.append(dict(test='invalid recipe marker fails stock',marker_sha256=sha(malformed),kind=kind,pass_check=True))
+        invoke_checked(actual,0x15797d8,source)
+        assert bytes(actual.mem_read(source+0x145,3))==bytes(3)
+        assert output(actual,'matrix',context=RAM+0x1200)==expected_contexts[1]['matrix']
+        identity_checks.append(dict(test='native reset clears only its own recipe identity',pass_check=True))
     for address in [0x157a5d8,0x156fad8,0x156ac98,0x156ad14,0x15703f8,0x156b7d4,0x156a068,0x1569be4,0x156d348,0x1570668]:
         edit=next(e for e in manifest['edits'] if e['address']==address)
         disp=(edit['value']&0xffffff)<<2
         if disp&0x2000000:disp-=0x4000000
         assert address+8+disp in visited
     OUT.mkdir(exist_ok=True)
-    report=dict(scope=__doc__,status='Six built-ins execute; shared-latch gate OPEN, not camera accepted',
-        elf_sha256=manifest['elf_sha256'],records=records,menus=menus,captions=captions,global_latch_counterexample=counterexample,
+    report=dict(scope=__doc__,status=('Context-bound six built-ins execute; bounded isolation PASS, native lifetime OPEN' if context_identity else 'Six built-ins execute; shared-latch gate OPEN, not camera accepted'),
+        elf_sha256=manifest['elf_sha256'],records=records,menus=menus,captions=captions,global_latch_counterexample=counterexample,context_identity=context_identity,identity_checks=identity_checks,
         recipe_metadata=[{k:r[k] for k in ['name','value','family','luma','channels','keep','sha256']} for r in recipes],
         all_ten_processing_thunks_executed=True,cpu_writes=writes,backend=dict(path=str(Path(uclib._name).resolve()),sha256=sha(Path(uclib._name).read_bytes())),
         transport_fixtures=dict(results=TRANSPORT,calls=transport_calls),manual_init=True,continuous_producer=False,
         x100vi_native_color_comparison=False,hardware=False,accepted=False,
         inputs=manifest['dependency_sha256'] | {str(BUILD/'mods.elf'):manifest['elf_sha256'],str(Path(__file__)):sha(Path(__file__).read_bytes()),str(ROOT/'modular-build-unverified/mods.elf'):base_manifest['elf_sha256']})
     (OUT/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
-    print(json.dumps(dict(cases=len(records),films=NAMES,shared_latch='OPEN',hardware=False)))
+    print(json.dumps(dict(cases=len(records),films=NAMES,identity_checks=len(identity_checks),shared_latch=('removed in this model adapter' if context_identity else 'OPEN'),hardware=False)))
 
 
 if __name__=='__main__':main()

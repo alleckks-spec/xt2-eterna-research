@@ -5,7 +5,63 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Latest six-film experiment — state gate OPEN
+## Current context-bound candidate — native lifecycle OPEN
+
+The reproduced cross-context mixing is fixed in the new X-T2-specific adapter:
+after constructing ETERNA context A and Classic Neg. context B, A retains its
+ETERNA output. Six retained contexts preserve all eight checked outputs after
+later stock construction. Identity is stored as an immutable index and two
+marker bytes at +145..147 within the inspected 0x148-byte processing class.
+Only two verified native mapper return sites permit that write; byte-only foreign
+calls and malformed identity data stay stock. The global diagnostic is not a
+recipe source. This adds 120 resident bytes, with no side table, allocator,
+service, loader or emulator.
+
+Exact ELF SHA-256:
+`0758d9955992eb3073785997229a8032dcd73df0783549a90a792d4c07f271ae`.
+SD boot SHA-256:
+`a444dabba10a5d38185beccbf35c8de5b8bfaae5b3c9ea84343181378f501b70`.
+Footprint is 145,088 / 196,608 reserved bytes. The same two mods, 12 libraries,
+21 C files and 54 delivery edits remain selected.
+
+The exact artifact passes all previous 356 processing/guard cases, three film
+lists and six caption boundaries, plus **99 identity checks**: six retained
+contexts, original full-size memcpy, the second real mapper caller block,
+native clear/write extents with canaries, unqualified byte-only calls,
+invalid-marker fallback and independent reset. The same ELF separately passes
+43 NR cases and three NR menu bindings. ELF→region→SD, all 54 words and both SD
+hashes match. These remain bounded functions with supplied configuration and
+transport, not continuous capture or an actual scheduler-overlap observation.
+
+`xt2_context_recipe_reference.h` publishes only our original lookup and
+qualified-writer logic. Its exact bodies match those inlined in the tested
+private C; the header is a review/reference excerpt, not an additional linked
+unit. ARM32 Clang syntax was checked against the locally supplied upstream type
+header. Private upstream group handlers, generators, coefficients, hook records
+and original firmware instructions are excluded. It requires that local type
+header (six immutable recipes, no card films), existing selector/diagnostics and
+the unchanged XPP hook ABI. Do not add the header alongside identical inlined
+definitions. `verify_context_films_candidate.py` explicitly selects this
+artifact through the reused parameterized case engine.
+
+**The native-lifetime gate is still OPEN.** The original base initializer clears
+exactly 0x148 bytes; the automated case checks that extent and adjacent canaries.
+The inspected native constructor's final named field is byte +144. The tag and
+borrowed caller/copy cases do not prove every other native writer, every real
+capture copy or global padding ownership. No custom settings/C1-C7/flash bytes
+were assigned. The entire native aggregate constructor still reaches a parameter
+read at key/index1a3d40 outside the supplied processing-calibration window.
+Unrelated flat RAM/firmware bytes or invented ready values were not substituted.
+Complete producer/service/storage startup, mutable/card films, WB, full boot and
+hardware remain unfinished. Neither native X100VI color equivalence nor camera
+acceptance is claimed. The private candidate remains `accepted=false`.
+
+The older counterexample and candidates below are preserved as history. In the
+shared case engine the default still checks the old shared-latch artifact;
+the new wrapper enables the context-identity expectations. Its reports distinguish
+bounded isolation success from the remaining native-lifetime requirement.
+
+## Earlier six-film experiment — original shared-latch counterexample
 
 All six original built-ins now compile and execute in a separate ordinary
 two-mod candidate: ETERNA, Classic Neg., Bleach Bypass, Nostalgic Neg., REALA ACE
