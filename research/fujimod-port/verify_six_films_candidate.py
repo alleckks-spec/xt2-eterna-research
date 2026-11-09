@@ -32,11 +32,12 @@ LAYOUTS={'matrix':(0x156fad8,20),'curve':(0x15703f8,0x44),'luma':(0x156b7d4,0x80
          'still':(0x1570668,0x100),'chroma':(0x156af80,50)}
 
 
-def main(build_directory=BUILD, output_directory=OUT, context_identity=False):
+def main(build_directory=BUILD, output_directory=OUT, context_identity=False,
+         expected_words=54, expected_init_count=2):
     BUILD=Path(build_directory);OUT=Path(output_directory)
     assert Path(uclib._name).resolve()==(ROOT.parents[1]/'.toolchains/unicorn-tci/libunicorn.2.dylib').resolve()
-    verify_card(BUILD,54)
-    sections,symbols,manifest=load(BUILD,54)
+    verify_card(BUILD,expected_words)
+    sections,symbols,manifest=load(BUILD,expected_words)
     actual=actual_factory();stock=runtime('xt2-4.41',False)
     kernel=next(d for a,d in Firmware('xt2-4.41',True).units if a==0x40000)
     stock.mem_map(0x40000,(len(kernel)+4095)&~4095);stock.mem_write(0x40000,kernel)
@@ -76,7 +77,7 @@ def main(build_directory=BUILD, output_directory=OUT, context_identity=False):
         assert u.reg_read(UC_ARM_REG_SP)==RAM+0xe000
         assert [u.reg_read(r) for r in regs]==values,(hex(entry),'callee saved')
         return result
-    initialize(actual,symbols,invoke_checked)
+    initialize(actual,symbols,invoke_checked,expected_init_count)
     phase[0]='processing'
     def select(index):
         phase[0]='selection'

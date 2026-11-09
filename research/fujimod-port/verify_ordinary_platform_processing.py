@@ -60,13 +60,14 @@ def actual_factory():
     return u
 
 
-def initialize(u,symbols,invoke):
+def initialize(u,symbols,invoke,expected_init_count=2):
+    first=len(init_calls)
     u.mem_write(symbols['ui_mode'],b'\x03')
     for a in range(symbols['__xpp_init_start'],symbols['__xpp_init_end'],4):
         fn=int.from_bytes(u.mem_read(a,4),'little')
         invoke(u,fn)
         init_calls.append(fn)
-    assert len(init_calls)==2
+    assert len(init_calls)-first==expected_init_count
     assert int.from_bytes(u.mem_read(symbols['film_choice_status'],4),'little')==0
     assert int.from_bytes(u.mem_read(symbols['xpp_menu_stock_status'],4),'little')==0
 

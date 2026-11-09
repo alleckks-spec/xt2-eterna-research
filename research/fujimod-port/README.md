@@ -5,17 +5,22 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Next module: JPEG Max native table binding
+## Current candidate: six films, NR and JPEG Max
 
-The original X-T2 table-preparation entry at `0x2a232e8` and its scaler now pass
-18 bounded native cases. Scale 16 produces both all-ones quantization tables;
-normal scales, disabled channels and write extents are checked. The existing
-X-T20 request initializer and three caller blocks have matching roles. This
-qualifies a model binding; JPEG Max is not yet linked into the common candidate,
-and real still descriptor/overlay lifecycle remains open.
-[Evidence, dependencies and standalone original checker](JPEG_TABLES.md).
+The original JPEG Max XPP module is now the third ordinary mod. Only its quality
+property and target/menu bindings change. The new common ELF passes 33 native
+JPEG selection/table cases, the reused 356 film + 99 identity cases, three film
+lists/six caption boundaries, and NR43/3. All 63 ELF/region/SD edits match.
+Footprint is 148,912 / 196,608 bytes (+3,824). Exact ELF SHA-256:
+`8bea01979955b1e751643cb1201975adc553e9efe2eafa5ef327fdc990c013eb`.
 
-## Current context-bound candidate — native lifecycle OPEN
+These checks use manual init and supplied configuration/request boundaries.
+JPEG quality list copies are checked; no full JPEG UI dispatcher, real capture
+descriptor/encoder, overlay lifetime, file/settings/timer startup or camera is
+qualified. The whole film-context lifecycle gate also stays open.
+[Exact artifacts, evidence, original tools and dependencies](JPEG_TABLES.md).
+
+## Previous context-bound candidate — native lifecycle OPEN
 
 The reproduced cross-context mixing is fixed in the new X-T2-specific adapter:
 after constructing ETERNA context A and Classic Neg. context B, A retains its
