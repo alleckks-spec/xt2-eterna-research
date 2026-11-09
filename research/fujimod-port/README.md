@@ -5,7 +5,23 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Next integration: existing UI callback queue
+## Current candidate: corrected timer ownership
+
+The same three ordinary mods now include one corrected XPP timer source. Active
+restart cancels the old native handle; cancellation failure keeps `running` set,
+propagates through lifetime cleanup and prevents a replacement start. The old
+ELF reproduces3callbacks after cleanup; the new ELF produces0. Native10ms
+one-shot/300ms periodic behavior also passes using explicit logical tick calls.
+This borrows a scheduled UI1 context, not an actual running timer task or IRQ.
+
+New common ELF SHA-256:
+`06ab09771172acde5d7e330066ad4f8679083a751767f80701d225ee5e43b85d`.
+Footprint148,944 /196,608 (+32bytes), same23C/13libraries/63delivery edits.
+Exact artifact passes33 JPEG,356film+99identity,3film lists/6captions, NR43/3
+and ELF→SD correspondence. No camera or whole service/startup qualification.
+[Original adaptation, builder, checker and dependency/evidence limits](TIMER_RESTART.md).
+
+## Separate component: existing UI callback queue
 
 The X-T2 active UI transport needs68 payload bytes (76-byte packet), where the
 X-T20 source provides44 (52-byte packet). The adapted original queue now passes
@@ -18,7 +34,7 @@ custom pages and card storage/mutable lifetime remain open.
 [Original builder/checker and precise limits](UI_POST_TRANSPORT.md);
 [earlier packet-copy ABI evidence](UI_POST_ABI.md).
 
-## Current candidate: six films, NR and JPEG Max
+## Earlier common candidate: six films, NR and JPEG Max
 
 The original JPEG Max XPP module is now the third ordinary mod. Only its quality
 property and target/menu bindings change. The new common ELF passes 33 native
