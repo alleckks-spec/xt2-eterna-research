@@ -5,6 +5,17 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
+## Next integration: existing UI callback queue
+
+A concrete model difference is now qualified: X-T2's active UI post transport
+copies68 payload bytes (76-byte packet), where X-T20 `post.c` provides44 (52-byte
+packet). Bounded original memcpy execution reproduces the old packet's overread
+and verifies the adapted extent. The original queue source's payload is corrected
+and an ARM object compiles with Clang. This is an ABI prerequisite for card-film
+publication, not a newly started service or an integrated callback result.
+Event-code availability, runtime registration/routing and redraw remain open.
+[Original checker, layout reference, adapter and exact limits](UI_POST_ABI.md).
+
 ## Current candidate: six films, NR and JPEG Max
 
 The original JPEG Max XPP module is now the third ordinary mod. Only its quality
