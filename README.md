@@ -8,7 +8,7 @@ The current ordinary X-T2 candidate contains six immutable films, NR and the exi
 
 On the unchanged ELF, five native caller/setup prefixes and 15 first submissions now pass as well: native code creates request tag/kind/attempts and sets the first index; only the selected primary requests receive scale16. Geometry/worker-header inputs remain explicit, and execution stops before the encoder. The underlying table-preparation function separately passes18 cases. [JPEG Max adaptation, evidence and original checkers](research/fujimod-port/JPEG_TABLES.md).
 
-The next card-film prerequisite exposed a UI ABI difference: X-T2 copies a76-byte post packet, while the X-T20 structure supplies52. Original native-copy checks reproduce that overread and verify the corrected extent. The queue's runtime registration/event routing is not yet qualified and the common package is unchanged. [Original checker, adapter and layout reference](research/fujimod-port/UI_POST_ABI.md).
+The next card-film prerequisite exposed a UI ABI difference: X-T2 copies a76-byte post packet, while the X-T20 structure supplies52. The adapted existing queue now passes18 callbacks through native transport in a borrowed native-scheduled UI1 context,16-slot saturation/stale-generation checks and one coalesced redraw submission to UILIB. Full UI loop/rendering, global event collision and card-film lifecycle remain open; the common package is unchanged. [Original adapters/checker and exact limits](research/fujimod-port/UI_POST_TRANSPORT.md).
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 

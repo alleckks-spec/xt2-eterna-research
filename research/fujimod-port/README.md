@@ -7,14 +7,16 @@ historical research, not the current implementation plan.
 
 ## Next integration: existing UI callback queue
 
-A concrete model difference is now qualified: X-T2's active UI post transport
-copies68 payload bytes (76-byte packet), where X-T20 `post.c` provides44 (52-byte
-packet). Bounded original memcpy execution reproduces the old packet's overread
-and verifies the adapted extent. The original queue source's payload is corrected
-and an ARM object compiles with Clang. This is an ABI prerequisite for card-film
-publication, not a newly started service or an integrated callback result.
-Event-code availability, runtime registration/routing and redraw remain open.
-[Original checker, layout reference, adapter and exact limits](UI_POST_ABI.md).
+The X-T2 active UI transport needs68 payload bytes (76-byte packet), where the
+X-T20 source provides44 (52-byte packet). The adapted original queue now passes
+18 callbacks through native kernel transport in a borrowed native-scheduled UI1
+context,16-slot saturation, stale-generation rejection and one coalesced native
+UILIB redraw submission. Native registration/queue creation/scheduling execute
+without internal stubs. This is an isolated Clang-built component; the common
+ordinary SD package is unchanged. Full UI loop/rendering, global event collision,
+custom pages and card storage/mutable lifetime remain open.
+[Original builder/checker and precise limits](UI_POST_TRANSPORT.md);
+[earlier packet-copy ABI evidence](UI_POST_ABI.md).
 
 ## Current candidate: six films, NR and JPEG Max
 

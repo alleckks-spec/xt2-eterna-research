@@ -64,7 +64,8 @@ reference header next to the tool. It emits a private source derivative, which
 is not included here. Compiling that source also requires the locally supplied
 upstream mod/menu/hook headers. This is not a standalone public FujiMod build.
 
-Next verify the callback event's availability on X-T2, runtime dispatch
-registration, actual UI-task routing and redraw bindings, then link the existing
-queue code into the ordinary common candidate. Full card loading, mutable recipe
-lifetime, startup/storage/timer execution and camera evidence remain open.
+The subsequent [native transport/component check](UI_POST_TRANSPORT.md) now
+qualifies active registration, callback delivery in a borrowed native-scheduled
+UI context, and redraw submission. It does not change this copy-only report's
+scope. Global event collision, ordinary common integration, full card loading,
+mutable recipe lifetime, startup/storage/timer execution and camera remain open.
