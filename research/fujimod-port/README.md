@@ -5,6 +5,16 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
+## Next module: JPEG Max native table binding
+
+The original X-T2 table-preparation entry at `0x2a232e8` and its scaler now pass
+18 bounded native cases. Scale 16 produces both all-ones quantization tables;
+normal scales, disabled channels and write extents are checked. The existing
+X-T20 request initializer and three caller blocks have matching roles. This
+qualifies a model binding; JPEG Max is not yet linked into the common candidate,
+and real still descriptor/overlay lifecycle remains open.
+[Evidence, dependencies and standalone original checker](JPEG_TABLES.md).
+
 ## Current context-bound candidate — native lifecycle OPEN
 
 The reproduced cross-context mixing is fixed in the new X-T2-specific adapter:

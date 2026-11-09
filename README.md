@@ -6,6 +6,8 @@ The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 thro
 
 A small X-T2 model adapter now keeps immutable recipe identity with each inspected native processing context instead of a shared recipe pointer. The exact new ordinary ELF passes the existing 356 cases, 99 context-identity regressions, three film lists/six caption boundaries, 43 NR cases and 54-word ELF→SD correspondence. The former A/B mixing case now preserves A's output. Complete native writer/copy/service lifecycle and hardware remain unqualified; this is not a completed or camera-accepted port. [Current evidence, original identity logic and verification tools](research/fujimod-port/README.md).
 
+A further model binding is qualified for the existing X-T20 JPEG Max module: the original X-T2 table-preparation function passes 18 bounded native cases, including all-ones tables at scale 16. JPEG Max is not yet linked into the common SD candidate; real capture and overlay lifecycle remain open. [Binding evidence and original standalone checker](research/fujimod-port/JPEG_TABLES.md).
+
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 
 ## Historical research (superseded scope)
