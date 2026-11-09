@@ -7,6 +7,10 @@ historical research, not the current implementation plan.
 
 ## Card processing: native central assembly passes; full lifecycle OPEN
 
+**Actual native still body now passes on the unchanged common ELF.** Nine real still parameter assemblies cover stock, all six immutable profiles (24 group comparisons against the supplied library) and two original card JSON profiles (independent matrix/curve/chroma/luma expectations). Native slots/context identities and reader release pass; no stock-trampoline or kernel success substitute is used. Native profile/settings/calibration and borrowed UI1 inputs remain explicit fixtures; this is not capture scheduling, sensor/encoder/JPEG, mounted FAT, full startup/lifetime or camera evidence. [Original checker and exact boundaries](NATIVE_STILL.md).
+
+Earlier card-processing milestone (the separate still checker below closes its native-body gap):
+
 **Card recipes now reach the native X-T2 parameter assembler in the common four-mod build.** Supplied JSON goes through the existing parser/publisher/UI selection and native central API; both matrices, both curves, chroma and luma match independent expectations. A paired reader/publisher guard uses the existing table and observer (8 shared bytes), with controlled reader-first and writer-first checks passing without mixed parameters. Same33C/14 libraries;225,892bytes in224KiB. Exact ELF passes NR43/3, JPEG33/3 and66-word ELF→SD correspondence. Still-body execution, full storage/startup/lifetime and camera remain open; the seven-argument still wrapper check uses an explicit trampoline surrogate. Previous356/99 numeric checks are not transferred. [Original adapters, checker, dependencies and exact limits](CARD_PROCESSING.md).
 
 Earlier frozen card-menu-only build (db56c69c; processing remained Provia):
