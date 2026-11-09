@@ -7,6 +7,10 @@ historical research, not the current implementation plan.
 
 ## Card processing: native central assembly passes; full lifecycle OPEN
 
+**Supplied saved-choice JSON now restores all six immutable profiles and card_1 through native settings I/O and the existing codec.** Real still assembly uses the restored choice:24 built-in group comparisons match the supplied library; card_1 retains its key while unavailable, then applies its recipe after catalog/native UI publication. The checker establishes these results without calling a selection setter. Nine cases include two film-file rejection cases; settings ownerfound1/loads1/error0, file resources/callbacks retire and three timer holds remain. Same runtime/ELF. Lower file data/metadata and native UI/calibration/profile boundaries remain explicit; settings writing, power-cycle persistence, full startup and camera are unproved. [Original checker and exact scope](COMMON_SETTINGS_RESTORE.md).
+
+Earlier policy-start milestone covered native defaults:
+
 **The actual X-T2 policy hook now starts the common artifact's modules and existing services.** Four init/two late functions run once; forbidden-mode/re-entry checks and nine stock-policy returns pass. The existing settings service initially owns the shared file channel: native missing-file status6 applies defaults, then retained storage workers continue into the film/UI/actual-still chain. Valid JSON, malformed JSON and native read error5 cases pass; three reusable timer holds remain. No manual mod-init loop, manual loader boot, busy bypass or kernel success substitute is used. Native constructors/UI1/data/FS boundaries remain explicit; this is not scheduled first-call/full boot, settings persistence, physical SD or camera evidence. [Original setup/checker and exact limits](COMMON_LATE_START.md).
 
 Earlier common-file milestone used explicit manual startup:
