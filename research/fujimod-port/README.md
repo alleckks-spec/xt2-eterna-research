@@ -5,7 +5,11 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Current candidate: corrected timer ownership
+## Experimental card-films integration — processing OPEN
+
+**New experimental four-mod build: card menus pass; card processing is unfinished.** The existing card-films loader/parser/publisher/UI sources now join the ordinary build (33C/14 libraries). Correct the film property to0x1fc and extend the existing reservation downward32KiB after measuring the complete225,252-byte footprint. Native heap/startup-prefix mapping checks, exact64-word ELF→SD correspondence, NR43/3 and JPEG33/3 pass. Native UI1 publication, Fn name lookup and row removal pass in all three lists. The context adapter still rejects card recipes, leaving stock Provia; full file/service/startup/lifetime and camera qualification remain open. Prior356-film/99-context results are not transferred to this ELF. [Original integration tools, exact evidence and limitations](CARD_FILMS_INTEGRATION.md).
+
+## Earlier common candidate: corrected timer ownership
 
 The same three ordinary mods now include one corrected XPP timer source. Active
 restart cancels the old native handle; cancellation failure keeps `running` set,
