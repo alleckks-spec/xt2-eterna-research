@@ -5,7 +5,11 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Experimental card-films integration — processing OPEN
+## Card processing: native central assembly passes; full lifecycle OPEN
+
+**Card recipes now reach the native X-T2 parameter assembler in the common four-mod build.** Supplied JSON goes through the existing parser/publisher/UI selection and native central API; both matrices, both curves, chroma and luma match independent expectations. A paired reader/publisher guard uses the existing table and observer (8 shared bytes), with controlled reader-first and writer-first checks passing without mixed parameters. Same33C/14 libraries;225,892bytes in224KiB. Exact ELF passes NR43/3, JPEG33/3 and66-word ELF→SD correspondence. Still-body execution, full storage/startup/lifetime and camera remain open; the seven-argument still wrapper check uses an explicit trampoline surrogate. Previous356/99 numeric checks are not transferred. [Original adapters, checker, dependencies and exact limits](CARD_PROCESSING.md).
+
+Earlier frozen card-menu-only build (db56c69c; processing remained Provia):
 
 **New experimental four-mod build: card menus pass; card processing is unfinished.** The existing card-films loader/parser/publisher/UI sources now join the ordinary build (33C/14 libraries). Correct the film property to0x1fc and extend the existing reservation downward32KiB after measuring the complete225,252-byte footprint. Native heap/startup-prefix mapping checks, exact64-word ELF→SD correspondence, NR43/3 and JPEG33/3 pass. Native UI1 publication, Fn name lookup and row removal pass in all three lists. The context adapter still rejects card recipes, leaving stock Provia; full file/service/startup/lifetime and camera qualification remain open. Prior356-film/99-context results are not transferred to this ELF. [Original integration tools, exact evidence and limitations](CARD_FILMS_INTEGRATION.md).
 
@@ -29,7 +33,9 @@ and ELF→SD correspondence. No camera or whole service/startup qualification.
 
 The existing film loader now builds with its actual parser/schema/publisher and the X-T2 cardio/timer adapters. A shared-parser XPP icon-reference compile failure is corrected using the existing XPP constants. Three parser cases and the native timer → directory error → loader failure → ten-tick retry chain pass in a separate component. Scratch stacks, explicit REC/device fixtures and native logical tick calls are not timer-task scheduling or mounted FAT; card rows/mutable processing and the common SD remain unchanged. [Original tools, executed chain and exact limits](FILM_LOADER_COMPONENT.md).
 
+
 The same loader component now passes a supplied file-boundary chain: native open/read/close → actual parser → loader catalog. Valid JSON loads one entry; malformed JSON and a mapped read error are rejected, with file resources retired and the read error preserved. Only three lower filesystem calls/initialized FS structures supply data; native queues/semaphores and retained worker loops execute. This is not mounted FAT, card-row selection, mutable processing or camera evidence, and the common SD is unchanged. [Original checker, assumptions and results](FILM_LOADER_FILE_BOUNDARY.md).
+
 
 ## Separate components: directory listing and UI callback queue
 
