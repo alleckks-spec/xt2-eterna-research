@@ -21,8 +21,8 @@ transport_calls=[]
 init_calls=[]
 
 
-def build():
-    sections,symbols,report=load()
+def build(build_directory=BUILD):
+    sections,symbols,report=load(build_directory)
     # Confirm these are the eight processing branches, not other package edits.
     from build_fixture import BINDINGS
     for edit in report['edits']:
@@ -81,11 +81,14 @@ def select(u,symbols,invoke,enabled,stored):
     selection_calls.append(dict(menu_key=key,stored_readback=readback,choice_key=choice))
 
 
-def main():
+def main(build_directory=BUILD,output_directory=OUT):
+    BUILD=Path(build_directory)
+    CARD=Path(str(BUILD)+'-card')
+    OUT=Path(output_directory)
     # Reuse the correspondence checker, including complete SD file hashes.
     from verify_ordinary_platform_card import main as verify_card
-    verify_card()
-    verify(build_function=build,output_directory=OUT,resident_region=(START,END),
+    verify_card(BUILD)
+    verify(build_function=lambda:build(BUILD),output_directory=OUT,resident_region=(START,END),
            actual_factory=actual_factory,initialize=initialize,select_profile=select,
            selection_write_ranges=((0xffd000,0x1000000),(0x1180000,0x1235000),(0x1ab0000,0x1ad0000)))
     path=OUT/'processing-verification-tci.json'

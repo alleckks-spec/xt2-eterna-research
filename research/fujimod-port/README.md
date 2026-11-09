@@ -5,7 +5,38 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Existing ordinary candidate
+## Current modular candidate
+
+The same checked 21 C sources now build as separate ordinary `film-sims` and
+`noise-reduction` mods with 12 library dependencies, each source compiled once.
+Original libc, lifetime, cardio and cardio/unpaced are consumed directly; seven
+X-T2 metadata selections connect the previously adapted sources/interfaces. No C
+source, native binding, emulator or loader was changed for this conversion.
+
+The new ELF SHA-256 is
+`9b2b4497f0032db99e6c15459cf8c378a9241b7d52583c0572501f1ac33b2045`;
+the new SD boot SHA-256 is
+`50e606058e8a7fe60736d2cf982704ab7245b3455b9c836c8cfe26e0b1dcc747`.
+Footprint remains 141,776 bytes. All 52 target patch addresses/preimages match the
+previous candidate, with new relocation values. The exact new artifact passes
+ELF→region→SD correspondence, 117 processing cases, three NR menu bindings and
+43 NR register/guard cases. Both mods and all libraries pass builder availability.
+This does not qualify boot, actual services, a continuous producer or the camera.
+
+The film mod still contains only the previously adapted immutable ETERNA, and the
+settings selection still contains the stock-choice codec subset. The two normal
+module names are not a claim that all upstream films/settings now work. The
+checked linked init order remains NR enrollment before the film initializer;
+other module combinations need their own startup/dependency checks.
+
+`build_modular_candidate.py` generates the target metadata, asserts source-set
+equality/no duplicates, then calls the original mod builder and recovery composer.
+`verify_modular_candidate.py` reuses the processing and NR engines on this exact
+artifact. The original artifact loader and card checker now accept a selected
+build directory and per-unit source roots instead of assuming one flat module.
+The package remains unaccepted for camera use.
+
+## Earlier combined ordinary candidate
 
 A locally built intermediate candidate contains processing for one immutable
 ETERNA profile, shared stock-choice menu integration, noise reduction and the
@@ -36,7 +67,7 @@ retained; output blocks match. No service startup, boot or camera is proved.
 
 ## Remaining scope
 
-The combined intermediate module is not the completed modular port. Additional
+The two-mod intermediate candidate is not the complete FujiMod port. Additional
 built-in films, shared/mutable/card films and existing editors remain unfinished,
 as do WB ownership conflicts, service startup/storage/lifetime and other selected
 X-T20 modules. A metadata dependency graph is not a working module.
@@ -72,3 +103,14 @@ selection; the old processing budget (200,000) stopped in bounded stock bitmap
 conversion code before returning. No native code or peripheral response was
 modified to complete that call. macOS sandbox execution required the same
 approved outside-sandbox environment as earlier component assays.
+
+The modular builder additionally requires the local original
+`build_ordinary_platform_candidate.prepare` helper, its checked GNU source/target
+inputs, pinned x70view tree, ordinary FujiMod Python extension and Arm GNU
+13.2.Rel1 toolchain. It generates metadata inside the existing local target tree,
+not public upstream commits. Select a new output directory for rebuilding; the
+artifact checker must target that same directory. The reference verification
+script's default is `modular-build-unverified`, not an arbitrary later rebuild.
+The NR case engine (`verify_nr_candidate`) and resident constants/helper
+(`build_resident_reservation`) remain local dependencies. No private inputs or
+raw generated manifests are included here.
