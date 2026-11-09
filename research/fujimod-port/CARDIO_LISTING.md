@@ -93,3 +93,5 @@ Next qualify the native details writer/worker boundary, then connect the existin
 film loader and its real consumer. Do not add an unused production module merely
 to retain listing code. Private source, firmware, generated tables/ELF and raw
 patch manifests are excluded from publication.
+
+The subsequent [native callback/details check](CARDIO_NATIVE_CALLBACK.md) now executes handler-driven error callbacks and the bounded native details writers. It corrects native errors being accepted as successful empty/partial listings. The earlier report retains its supplied-record/callback scope; mounted FAT, actual scheduling and complete loader integration remain open.

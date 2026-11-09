@@ -12,7 +12,7 @@ The next card-film prerequisite exposed a UI ABI difference: X-T2 copies a76-byt
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 
-The next directory dependency now has a bounded adaptation: X-T2 uses listing commands0x1377/0x1378, and the existing XPP callback needs its existing bank/queue-hold mechanism to keep an abandoned listing from corrupting a new one. Both the original counterexample and corrected component pass through native media/kernel queues. Directory records/callback delivery remain supplied inputs; mounted FAT, native details layout, workers and full card-film integration are open. The common SD candidate is unchanged. [Original minimal adapters and exact evidence](research/fujimod-port/CARDIO_LISTING.md).
+The directory dependency now uses X-T2 commands0x1377/0x1378 and existing callback banks/hold. A further native worker check reproduced errors being accepted as successful empty/partial listings; the new component preserves those errors and normalizes only native end/no-match6. Native100-byte details writers pass eight bounded cases, and all78 native status mappings were checked. Native semaphore initialization and handler-driven callbacks execute; worker entries/positive FAT frames remain harness-invoked, not scheduled tasks or mounted FAT. The common SD candidate is unchanged. [Original adapters, evidence and remaining scope](research/fujimod-port/CARDIO_NATIVE_CALLBACK.md).
 
 ## Historical research (superseded scope)
 

@@ -23,14 +23,15 @@ and ELF→SD correspondence. No camera or whole service/startup qualification.
 
 ## Separate components: directory listing and UI callback queue
 
-The next existing dependency, directory listing, also has a bounded component:
-X-T2 commands1377/1378 replace X-T20's1370/1371. The original callback corrupts
-a new job after abandonment and leaves its old bank orphaned. Reusing the
-existing bank callbacks and queue hold fixes that sequence without new buffers
-or services. Native media constructors/sender/queue execute; directory entries
-and callback delivery are explicit fixtures. Native FAT details layout, workers,
-concurrent cancellation and complete card-film integration remain open. Common
-SD candidate is unchanged. [Original tools and precise scope](CARDIO_LISTING.md).
+The directory component now preserves native listing/readiness errors instead of
+accepting failed I/O as an empty or partial catalog. Native handler-driven error
+callbacks, eight bounded100-byte details-writer cases and all78 status mappings
+pass; only end/no-match6 becomes successful completion. The actual semaphore
+bootstrap loop makes the initial wait pass, while worker entries and positive
+FAT frames remain harness-invoked. Mounted FAT, scheduled task ownership and full
+loader/mutable integration remain open; the common SD candidate is unchanged.
+[Original status adapter and native callback/details evidence](CARDIO_NATIVE_CALLBACK.md);
+[prior transport/bank/hold adaptation](CARDIO_LISTING.md).
 
 The X-T2 active UI transport needs68 payload bytes (76-byte packet), where the
 X-T20 source provides44 (52-byte packet). The adapted original queue now passes
