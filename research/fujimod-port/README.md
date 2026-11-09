@@ -25,6 +25,8 @@ and ELF→SD correspondence. No camera or whole service/startup qualification.
 
 The existing film loader now builds with its actual parser/schema/publisher and the X-T2 cardio/timer adapters. A shared-parser XPP icon-reference compile failure is corrected using the existing XPP constants. Three parser cases and the native timer → directory error → loader failure → ten-tick retry chain pass in a separate component. Scratch stacks, explicit REC/device fixtures and native logical tick calls are not timer-task scheduling or mounted FAT; card rows/mutable processing and the common SD remain unchanged. [Original tools, executed chain and exact limits](FILM_LOADER_COMPONENT.md).
 
+The same loader component now passes a supplied file-boundary chain: native open/read/close → actual parser → loader catalog. Valid JSON loads one entry; malformed JSON and a mapped read error are rejected, with file resources retired and the read error preserved. Only three lower filesystem calls/initialized FS structures supply data; native queues/semaphores and retained worker loops execute. This is not mounted FAT, card-row selection, mutable processing or camera evidence, and the common SD is unchanged. [Original checker, assumptions and results](FILM_LOADER_FILE_BOUNDARY.md).
+
 ## Separate components: directory listing and UI callback queue
 
 The directory component now preserves native listing/readiness errors instead of
