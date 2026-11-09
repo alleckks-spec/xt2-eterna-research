@@ -1,4 +1,14 @@
-# X-T2 ETERNA backport research
+# X-T2 FujiMod port and earlier ETERNA research
+
+## Current direction — 9 November 2026
+
+The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 through the ordinary XPP builder and recovery composer. The standalone Sepia→ETERNA direction below is historical and has been superseded.
+
+The existing intermediate ordinary SD candidate now passes all 117 bounded processing cases on its exact ELF, including stock→ETERNA→stock and live/still outputs. Artifact correspondence and the earlier NR checks also pass. Manual enrollment, supplied calibration/state and transport fixtures remain explicit; no full startup, service lifecycle, capture or camera qualification is claimed. The full modular port remains incomplete. [Current port result, original assay source and dependencies](research/fujimod-port/README.md).
+
+This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
+
+## Historical research (superseded scope)
 
 **First-stage readiness:** the unchanged `c136d6d7` diagnostic is engineering-admitted for its [single limited first test](research/delivery-probe/FIRST-TEST.txt), subject to the owner's acceptance of the stated residual risks. This is separate from the active ETERNA HOLD. The active image now uses an [81,440-byte compact check](research/minimal-data-protection/README.md), reduced from 780,916 bytes within the same 168-byte reservation; 110 targeted cases pass. No camera test is claimed. Offline placement and live-to-capture integration remain development tasks, not automatically blocked by camera availability.
 
