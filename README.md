@@ -4,7 +4,7 @@
 
 The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 through the ordinary XPP builder and recovery composer. The standalone Sepia→ETERNA direction below is historical and has been superseded.
 
-The current intermediate SD candidate now builds as separate ordinary film-sims and noise-reduction mods with 12 library dependencies, using the same 21 C sources once. Its exact new ELF passes 117 processing cases, three NR menu bindings and 43 NR register cases, plus ELF→SD correspondence. Artifact correspondence and the earlier NR checks also pass. Manual enrollment, supplied calibration/state and transport fixtures remain explicit; no full startup, service lifecycle, capture or camera qualification is claimed. The full modular port remains incomplete. [Current port result, original assay source and dependencies](research/fujimod-port/README.md).
+The latest separate experiment transfers all six original built-in films and both RGB hooks through the ordinary two-mod build. It passes 356 bounded output/guard cases, six choices in three native lists, six caption boundaries, the existing 43 NR cases and ELF→SD correspondence. The upstream shared recipe latch still has a reproduced cross-context counterexample: this gate remains OPEN and the package is not camera-accepted. The earlier context-bound one-film baseline is preserved. [Current evidence, original verification tools and limitations](research/fujimod-port/README.md).
 
 This update and its original test tooling were prepared with OpenAI Codex assistance. No firmware images, vendor coefficients, private upstream source or binary patch manifests are published.
 

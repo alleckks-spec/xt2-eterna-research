@@ -13,14 +13,14 @@ CARD = Path(str(BUILD)+'-card')
 OUT = ROOT/'ordinary-platform-nr-check-unverified'
 
 
-def load(build_directory=BUILD):
+def load(build_directory=BUILD, expected_words=52):
     BUILD=Path(build_directory)
     CARD=Path(str(BUILD)+'-card')
     source_roots=json.loads((BUILD/'source-roots.json').read_text()) if (BUILD/'source-roots.json').exists() else None
     path = BUILD/'manifest.json'
     manifest = json.loads(path.read_text())
     assert manifest['target']=='xt2-441' and manifest['mode']=='image'
-    assert len(manifest['words'])==52
+    assert len(manifest['words'])==expected_words
     assert manifest['toolchain']=='arm-gnu-13.2-armv7a'
     region, = manifest['regions']
     assert int(region['address'],0)==START and region['size']<=END-START

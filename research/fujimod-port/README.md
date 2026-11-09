@@ -5,7 +5,61 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
-## Current modular candidate
+## Latest six-film experiment — state gate OPEN
+
+All six original built-ins now compile and execute in a separate ordinary
+two-mod candidate: ETERNA, Classic Neg., Bleach Bypass, Nostalgic Neg., REALA ACE
+and Neutral. The original recipe initializer is unchanged. Model adaptations
+include the two live/still RGB hooks, existing X-T2 scale/gain/forced-curve fixes,
+six choice rows/stable names/captions, and the existing chroma caller temporary
+carrying a validated immutable recipe pointer. Card/mutable films are still absent.
+
+Exact ELF SHA-256:
+`9c0ed58d1b0aa13b8fbd90218f4a83277aa8300a236e6533a3573993b28f5cb7`.
+SD boot SHA-256:
+`2cff74c9e478aa84c5e2783c03ac7132f7a647fecfe824e2d635b2045727d109`.
+Footprint is 144,968 / 196,608 reserved bytes, with 54 edits. ELF→region→SD
+correspondence, all edited words and both SD file hashes are checked.
+
+The exact new artifact passes 356 bounded output/guard cases: all stock IDs,
+six original recipe substitutions, ETERNA comparison with the earlier qualified
+ELF and 54 gain rows, stock fallback, scale and special/forced branches. Both RGB
+entries and all ten processing thunks execute. Six keys are reachable and applied
+through native cursor/property calls in three lists (15/15/21 rows), and six Fn
+records pass through the actual caption thunk with type/style restoration.
+Caption objects are supplied; this is not full rendering or screen evidence.
+The same ELF also passes three NR menu bindings and 43 register/guard cases.
+
+**The original shared-latch contract is still unqualified.** A supplied sequence
+constructs ETERNA context A, reads its matrix, constructs Classic Neg. context B,
+then reads A again. A's slot remains 9, but its matrix changes to B's recipe.
+This demonstrates a missing context-isolation contract, not observed camera
+task overlap. Native enclosing serialization or a specific identity adapter
+remains necessary. No generic reload/runtime architecture was introduced.
+
+The adjacent context byte +0x54 is stock-owned: a constructor writes it and
+original chroma, luma and matrix functions read it. Four positive accesses are
+checked by the original `audit_processing_recipe_byte.py`; this makes no claim
+that another byte is free. No recipe-ID byte has been assigned.
+
+`verify_six_films_candidate.py` records both functional checks and the explicit
+counterexample. Its successful exit means the stated cases and known failure
+were reproduced, **not** that the open gate passed. It uses the same supplied
+mode/calibration/RAM, manual enrollment, uncontended transport and borrowed
+chroma-frame boundaries as the existing assays. Separate processing contexts
+are not a continuous producer. No native X100VI color comparison, service
+startup/storage, full boot, image quality or hardware acceptance is claimed.
+The earlier one-film baseline remains preserved and is not relabeled as a
+complete port.
+
+The six-film preparation/build generators and derived C/coefficients remain
+private upstream material and are not distributed. The published tools require
+that locally built candidate, its manifests/source roots and the existing
+workspace dependencies listed below; this is not a standalone public build.
+`audit_processing_recipe_byte.py` additionally uses Capstone and the local
+`build_fixture`/`firmware_analysis` helpers with locally supplied X-T2 inputs.
+
+## Earlier modular one-film candidate
 
 The same checked 21 C sources now build as separate ordinary `film-sims` and
 `noise-reduction` mods with 12 library dependencies, each source compiled once.

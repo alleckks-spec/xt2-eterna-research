@@ -13,14 +13,14 @@ BUILD = ROOT/'ordinary-platform-build-unverified'
 CARD = Path(str(BUILD)+'-card')
 
 
-def main(build_directory=BUILD):
+def main(build_directory=BUILD, expected_words=52):
     BUILD=Path(build_directory)
     CARD=Path(str(BUILD)+'-card')
     manifest=json.loads((BUILD/'manifest.json').read_text())
     card=json.loads((CARD/'manifest.json').read_text())
     assert manifest['target']==card['firmware_id']=='xt2-441'
-    assert manifest['words']==card['words'] and len(manifest['words'])==52
-    assert len({word['address'] for word in manifest['words']})==52
+    assert manifest['words']==card['words'] and len(manifest['words'])==expected_words
+    assert len({word['address'] for word in manifest['words']})==expected_words
     region,=manifest['regions']
     start=int(region['address'],0)
     payload=(BUILD/region['file']).read_bytes()
@@ -51,7 +51,7 @@ def main(build_directory=BUILD):
         verified[name]=record
     assert card['accepted'] is False
     report=dict(scope=__doc__,elf_sha256=hashlib.sha256((BUILD/'mods.elf').read_bytes()).hexdigest(),
-        elf_region_equal=True,region_sd_equal=True,patched_sd_words=52,files=verified,
+        elf_region_equal=True,region_sd_equal=True,patched_sd_words=expected_words,files=verified,
         input_sha256={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in
                       [Path(__file__),BUILD/'manifest.json',CARD/'manifest.json']},
         accepted=False,hardware=False)
