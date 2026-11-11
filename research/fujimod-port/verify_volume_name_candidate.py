@@ -22,11 +22,11 @@ RAM=0x8000000
 BUILD=ROOT/'volume-name-resized-build-unverified'
 
 
-def verify(build_directory=BUILD, output_directory=None):
+def verify(build_directory=BUILD, output_directory=None, words=68):
     build=Path(build_directory)
     out=Path(output_directory) if output_directory else ROOT/'volume-name-check-unverified'
     out.mkdir(exist_ok=True)
-    verify_card(build,68)
+    verify_card(build,words)
     image=(Path(str(build)+'-card')/'ffboot.bin').read_bytes()
     manifest=json.loads((build/'manifest.json').read_text())
     with (build/'mods.elf').open('rb') as stream:
@@ -159,7 +159,7 @@ def verify(build_directory=BUILD, output_directory=None):
         format_cases=cases,delivered_entry_fifth_argument_and_callee_saved=True,
         bss_prefix_suffix_zero=True,reserved_payload_survives=True,crossing_heap_allocation_refused=True,
         reservation_start=hex(start),reservation_size=end-start,heap_capacity=start-0x12532fc,
-        menu_declaration_retained=True,general_mod_menu_engine_present=False,hardware_verified=False,
+        menu_declaration_retained=True,general_mod_menu_engine_exercised=False,hardware_verified=False,
         checker_sha256=sha(Path(__file__).read_bytes()))
     (out/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(dict(status='PASS',cases=len(cases),codec_cases=len(codec)+1,elf_sha256=report['elf_sha256'])))
@@ -169,4 +169,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--build',type=Path,default=BUILD)
     parser.add_argument('--output',type=Path)
-    args=parser.parse_args();verify(args.build,args.output)
+    parser.add_argument('--words',type=int,default=68)
+    args=parser.parse_args();verify(args.build,args.output,args.words)

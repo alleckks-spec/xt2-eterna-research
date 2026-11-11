@@ -12,9 +12,9 @@ ROOT=Path(__file__).resolve().parent
 BUILD=ROOT/'save-data-menu-native-build-unverified'
 
 
-def machine(build=BUILD):
+def machine(build=BUILD,words=72):
     ordinary.START=0x1380000;ordinary.END=0x13c0000
-    sections,symbols,report=ordinary.load(build,72)
+    sections,symbols,report=ordinary.load(build,words)
     u=actual_factory()
     for a,data,name,size in sections:
         if name not in ('.x70mod.hooks','.x70mod.strings'):u.mem_write(a,data)

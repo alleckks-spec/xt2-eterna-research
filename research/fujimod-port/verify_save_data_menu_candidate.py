@@ -24,11 +24,11 @@ RAM=0x8000000
 RETURN=RAM+0xf000
 
 
-def main(build=BUILD,output=None):
+def main(build=BUILD,output=None,words=72):
     build=Path(build);out=Path(output) if output else ROOT/'save-data-menu-check-unverified'
     out.mkdir(exist_ok=True)
-    verify_card(build,72)
-    u,s,call,loaded=machine(build)
+    verify_card(build,words)
+    u,s,call,loaded=machine(build,words)
     def word(a):return int.from_bytes(u.mem_read(a,4),'little')
     def value(name):return word(s[name])
     def state():return list(struct.unpack('<8I',u.mem_read(s['menu_node'],32)))
@@ -178,7 +178,7 @@ def main(build=BUILD,output=None):
     size=call(s['x70_json_finish'],writer)
     document=bytes(u.mem_read(buffer,size)).decode();assert json.loads(document)=={'date_card_name':False}
     report=dict(scope=__doc__,status='PASS',elf_sha256=sha((build/'mods.elf').read_bytes()),
-        words=72,original_stock_rows=cursor,stock_row_resources_unchanged=True,stock_statuses=list(expected_status),
+        words=words,original_stock_rows=cursor,stock_row_resources_unchanged=True,stock_statuses=list(expected_status),
         new_row_property=6,new_row_key=0x7f10,option_property=0x7f01,option_id=0x7f03,
         labels=labels,mode_guards=guards,changes=changes,committed_owner_json=document,
         native_constructor='0xcec598',native_open='0x13debf0',native_cursor='0xb518d4',
@@ -195,4 +195,5 @@ def main(build=BUILD,output=None):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--build',type=Path,default=BUILD);parser.add_argument('--output',type=Path)
-    args=parser.parse_args();main(args.build,args.output)
+    parser.add_argument('--words',type=int,default=72)
+    args=parser.parse_args();main(args.build,args.output,args.words)

@@ -1,3 +1,12 @@
+## Volatile XPP USB debug variant, November 11, 2026
+
+[Checkpoint](USB_DEBUG.md) and [original verifier](verify_usb_debug_candidate.py):
+separate consumed-Fn configuration, exact ELF d0ed134c0a6e. Native RAM
+getter/setter, GPIO, refusal/repeat/restore and delivered Fn epilogue controls
+pass.39sources/73words/245720bytes; four binary rebuild equality checked.
+Private upstream sources, native binding audit and all firmware stay local.
+Physical USB/host protocol and camera acceptance remain open; full port unfinished.
+
 # FujiMod X-T20 → X-T2 adaptation
 
 AI-assisted independent port work, targeting X-T2 firmware 4.41. The current
@@ -13,6 +22,7 @@ On the policy-started machine, native SETTINGS reads restore the owner. With REC
 
 Only original build wiring, probes/checkers and notes are published. The selected upstream menu-engine templates, private generator and generated C remain local; the public wiring requires those authorized pinned local inputs. This scalar SAVE DATA closure does not silently claim other lists, action pages or Fn/Q assignment support.
 
+
 ## Integrated guard, format-label codec and native custom-record SAVE
 
 The invalid-open guard now passes the native file/settings/still checks in both the four-mod artifact and a larger five-mod composition. In the latter, native SETTINGS.JSN reads restore FORMAT CARD NAME false/true together with ETERNA; the encoder keeps nondefault false after a film commit. Native write-driver refusal remains explicit. [Exact artifacts and integration evidence](STORAGE_GUARD.md).
@@ -20,6 +30,7 @@ The invalid-open guard now passes the native file/settings/still checks in both 
 The X-T20 format-label implementation and save_data codec now build for X-T2. Fourteen formatter controls, codec/native calendar/thunk checks, measured reservation/mapping, fresh binary rebuild and relocated film/NR/JPEG regressions pass. This completed snapshot still lacks the general menu consumer; the linked declaration alone is not UI support. [Formatter and memory scope](VOLUME_NAME.md).
 
 Forty-nine native custom-record SAVE controls serialize the underlying stock film0 for current keys0/32..37 across the seven raw record indices, stopping before journal transport. This is not independent extra-film recall in C1-C7 or a successful NAND write. [Serialization boundary](CUSTOM_SLOT_FILM.md).
+
 
 ## Full composition timer ABI and invalid-open control
 
