@@ -5,6 +5,14 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
+## Integrated guard, format-label codec and native custom-record SAVE
+
+The invalid-open guard now passes the native file/settings/still checks in both the four-mod artifact and a larger five-mod composition. In the latter, native SETTINGS.JSN reads restore FORMAT CARD NAME false/true together with ETERNA; the encoder keeps nondefault false after a film commit. Native write-driver refusal remains explicit. [Exact artifacts and integration evidence](STORAGE_GUARD.md).
+
+The X-T20 format-label implementation and save_data codec now build for X-T2. Fourteen formatter controls, codec/native calendar/thunk checks, measured reservation/mapping, fresh binary rebuild and relocated film/NR/JPEG regressions pass. This completed snapshot still lacks the general menu consumer; the linked declaration alone is not UI support. [Formatter and memory scope](VOLUME_NAME.md).
+
+Forty-nine native custom-record SAVE controls serialize the underlying stock film0 for current keys0/32..37 across the seven raw record indices, stopping before journal transport. This is not independent extra-film recall in C1-C7 or a successful NAND write. [Serialization boundary](CUSTOM_SLOT_FILM.md).
+
 ## Full composition timer ABI and invalid-open control
 
 The four-mod active-timer configuration now delivers the X-T2 dispatcher stack fix. Actual film-loader registration and two native-dispatched production callbacks reproduce the original misalignment and pass with the delivered word. ELF/region remain byte-identical; all67 SD edits and fresh rebuild correspondence pass. [Exact evidence and limits](FULL_TIMER.md).
