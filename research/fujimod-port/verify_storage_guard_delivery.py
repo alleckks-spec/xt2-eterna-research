@@ -5,9 +5,10 @@ the declared native fixtures to a physical filesystem, capture or camera result.
 """
 import argparse
 import hashlib
+import inspect
 import json
 from pathlib import Path
-from verify_ordinary_platform_card import main as verify_card
+import verify_ordinary_platform_card as card_check
 
 
 def sha(data):
@@ -23,8 +24,17 @@ def main():
     manifest = json.loads((args.build / 'manifest.json').read_text())
     receipt = json.loads((args.build / 'preparation.json').read_text())
     word_count = len(manifest['words'])
-    assert word_count in [67, 68]
-    verify_card(args.build, word_count)
+    assert word_count > 0
+    # Keep the earlier artifact's correspondence report immutable. Reuse the
+    # existing verifier, changing only its output destination for this stage.
+    card_source = inspect.getsource(card_check.main)
+    destination = "(BUILD/'card-correspondence.json')"
+    assert card_source.count(destination) == 1
+    card_source = card_source.replace(destination, 'CARD_REPORT_PATH')
+    card_source = card_source.replace('def main(', 'def verify_artifact(', 1)
+    namespace = dict(vars(card_check), CARD_REPORT_PATH=args.reports / 'card-correspondence.json')
+    exec(compile(card_source, str(Path(card_check.__file__)) + '::stage-report-destination', 'exec'), namespace)
+    namespace['verify_artifact'](args.build, word_count)
     digest = sha((args.build / 'mods.elf').read_bytes())
     assert digest == receipt['elf_sha256']
     for name, expected in receipt['source_sha256'].items():
@@ -46,9 +56,15 @@ def main():
     required += ['restore/' + name + '/valid.json' for name in
         ['eterna', 'classic_neg', 'bleach_bypass', 'nostalgic_neg', 'reala_ace', 'neutral', 'card_1']]
     required += ['restore/eterna/invalid-json.json', 'restore/eterna/read-error.json']
-    if word_count == 68:
+    from elftools.elf.elffile import ELFFile
+    with (args.build / 'mods.elf').open('rb') as stream:
+        symbols = {symbol.name for symbol in ELFFile(stream).get_section_by_name('.symtab').iter_symbols()}
+    has_save_data = 'save_data_settings' in symbols
+    if has_save_data:
         required += ['restore/eterna/save-data-0-' + str(value) + '/valid.json' for value in [0, 1]]
         required += ['write-save-data-0-0/verification.json']
+    if 'xpp_menu_setup_options' in symbols:
+        required += ['restore/eterna/save-data-0-1/menu-owner-flow/valid.json']
     evidence = {}
     for name in required:
         path = args.reports / name
@@ -63,9 +79,18 @@ def main():
         report = json.loads((args.reports / name).read_text())
         assert report['original_stack_control'] == original
         assert all(int(sp, 0) % 8 == (4 if original else 0) for sp in report['callback_sp'])
+    if 'xpp_menu_setup_options' in symbols:
+        owner = json.loads((args.reports / required[-1]).read_text())['native_save_data_menu_owner']
+        assert owner['supplied_ui_mode'] == 3 and owner['host_menu_open_writes'] == 0
+        assert owner['native_file_requests_while_menu_open'] == []
+        assert len(owner['native_file_requests_after_close']) == 1
+        assert owner['failed_after_close']['failed'] == 3 and owner['failed_after_close']['completed'] == 0
+        assert owner['initial_film'] == owner['final_film'] == 32
     result = dict(scope=__doc__, status='PASS', elf_sha256=digest,
         reproduced=repeated, delivery_words=word_count, source_count=len(receipt['source_sha256']),
         regions=manifest['regions'], exact_elf_native_reports=evidence,
+        artifact_checker_sha256=sha(Path(card_check.__file__).read_bytes()),
+        artifact_checker_output_adapter_sha256=sha(card_source.encode()),
         checker_sha256=sha(Path(__file__).read_bytes()),
         adapter_sha256=sha(Path(__file__).with_name('verify_full_storage_guard.py').read_bytes()),
         accepted=False, hardware_verified=False)

@@ -98,6 +98,7 @@ def catalog_first_restore():
     parser.add_argument('--read-error', type=int, default=0)
     parser.add_argument('--date-card-name', type=int, choices=[0, 1])
     parser.add_argument('--date-folders', type=int, choices=[0, 1])
+    parser.add_argument('--menu-flow', action='store_true')
     args = parser.parse_args()
     restore.SAVED_CHOICE = args.saved_choice
     captured = {}
@@ -125,6 +126,8 @@ def catalog_first_restore():
     if args.date_card_name is not None or args.date_folders is not None:
         destination = destination / ('save-data-' + str(args.date_folders if args.date_folders is not None else 0)
             + '-' + str(args.date_card_name if args.date_card_name is not None else 1))
+    if args.menu_flow:
+        destination = destination / 'menu-owner-flow'
     destination.mkdir(parents=True, exist_ok=True)
     namespace = dict(vars(common), make_machine=restore.make_started_machine, OUT=destination,
         CAPTURE_NATIVE=capture_native)
@@ -184,8 +187,113 @@ def catalog_first_restore():
         supplied_save_data_section=supplied_save_data, settings_adapter_sha256=settings_adapter_sha256,
         restored_key=key, explicit_selection_setters_after_decode=0,
         adapted_common_sha256=sha(source.encode()), checker_sha256=sha(Path(__file__).read_bytes()))
+    if args.menu_flow:
+        assert expected_save_data == [0, 1]
+        report['native_save_data_menu_owner'] = menu_owner_flow(m, ticks)
     path.write_text(json.dumps(report, indent=2) + '\n')
     print('Catalog-first native settings restore PASS', args.saved_choice, flush=True)
+
+
+def menu_owner_flow(machine, ticks):
+    """Use real menu entry/property/bank operations after native owner loading."""
+    from unicorn import UC_HOOK_CODE
+    from unicorn.arm_const import UC_ARM_REG_PC
+    import struct
+    import verify_common_settings_restore as restore
+    from verify_cardio_native_worker import RETURN
+    u, symbols, call = restore.active_machine
+    native = json.loads((BUILD / 'target.json').read_text())['symbols']
+    owner = symbols['save_data_settings']
+    word = machine.word
+    def current():
+        return dict(value=word(symbols['save_data_date_card_name']), requested=word(owner + 92),
+            completed=word(owner + 96), failed=word(owner + 100),
+            menu_open=bytes(u.mem_read(symbols['menu_open'], 1))[0],
+            shown=call(native['setp_effective_get'], 0x7f01, task=True),
+            film=word(symbols['film_choice_key']))
+    assert word(owner + 92) == 0 and word(owner + 104) == 2
+    assert bytes(u.mem_read(symbols['menu_open'], 1)) == b'\0'
+    # Preserve the supplied REC3 environment. Otherwise SETUP_REC5 alone
+    # would suppress settings work and confound the menu_open check.
+    assert bytes(u.mem_read(symbols['ui_mode'], 1)) == b'\x03'
+    before_film = word(symbols['film_choice_key'])
+    assert call(0x13debf0, 1, 0x49, 0, 0, task=True) == 1
+    parent_node = list(struct.unpack('<8I', u.mem_read(0x11802c0, 32)))
+    assert parent_node[4] == 9
+    assert call(0x13debf0, 1, 0x7f03, 0, 0, task=True) == 1
+    option_node = list(struct.unpack('<8I', u.mem_read(0x11802c0, 32)))
+    assert option_node[4] == 2
+    initial = current()
+    assert initial['value'] == 1 and initial['shown'] == 0 and initial['menu_open'] == 1
+    calls = []
+    hooks = []
+    for name in ['storage_open_file_async', 'storage_read_async_wrapper', 'storage_write_file_async',
+                 'storage_entry_async', 'storage_seek_async']:
+        address = native[name]
+        hooks.append(u.hook_add(UC_HOOK_CODE,
+            lambda uc, pc, size, data, name=name: calls.append(dict(api=name, pc=hex(pc))),
+            begin=address, end=address))
+    try:
+        call(0x154b700, 0x7f01, 1, task=True)
+        preview = current()
+        assert preview['value'] == 0 and preview['shown'] == 1 and preview['requested'] == 1
+        ticks(121)
+        assert not calls and word(symbols['x70_cardio_active']) == 0
+        call(native['bank_snapshot'], 1, task=True)
+        canceled = current()
+        assert canceled['value'] == 1 and canceled['shown'] == 0 and canceled['requested'] == 2
+        ticks(121)
+        assert not calls and word(symbols['x70_cardio_active']) == 0
+        call(0x154b700, 0x7f01, 1, task=True)
+        selected = current()
+        assert selected['value'] == 0 and selected['requested'] == 3
+        call(native['bank_snapshot'], 0, task=True)
+        call(0x154b700, 0x7f01, 1, task=True)
+        committed = current()
+        assert committed['value'] == 0 and committed['shown'] == 1 and committed['requested'] == 3
+        ticks(121)
+        assert not calls and word(symbols['x70_cardio_active']) == 0
+        assert committed['completed'] == committed['failed'] == 0
+        assert bytes(u.mem_read(symbols['menu_open'], 1)) == b'\x01'
+        assert word(symbols['film_choice_key']) == before_film
+        deferred_calls = list(calls)
+        assert call(0x13debf0, 2, 0, 0x22, 0, task=True) == 1
+        assert bytes(u.mem_read(symbols['menu_open'], 1)) == b'\0'
+        ticks(121)
+        assert len(calls) == 1 and calls[0]['api'] == 'storage_open_file_async'
+        job = word(symbols['x70_cardio_active'])
+        assert job
+        encoded = bytes(u.mem_read(word(job + 52), word(job + 20)))
+        assert json.loads(encoded) == dict(save_data=dict(date_card_name=False),
+            stock_choices=dict(current=dict(values=[dict(setting='film_simulation', value='eterna')])))
+        worker_runs = []
+        outer = u.context_save()
+        for entry, end, loop in [(0x969b54, 0x969c00, 0x969bb8), (0x969fcc, 0x96a090, 0x96a00c)]:
+            u.context_restore(restore.startup_workers[entry])
+            u.emu_start(end, RETURN, count=1)
+            assert u.reg_read(UC_ARM_REG_PC) == loop
+            machine.execute_to(loop, end)
+            restore.startup_workers[entry] = u.context_save()
+            worker_runs.append(dict(start=hex(loop), end=hex(end)))
+        u.context_restore(outer)
+        ticks(121)
+        assert word(symbols['x70_cardio_active']) == word(symbols['callbacks']) == 0
+        assert len(calls) == 1  # Actual native open refuses before write/close.
+        assert word(owner + 92) == word(owner + 100) == 3 and word(owner + 96) == 0
+        assert word(owner + 64) == 5 and word(owner + 32 + 16) == 1
+        assert bytes(u.mem_read(symbols['bank_state'], 16)) == bytes(16)
+        failed_after_close = current()
+    finally:
+        for hook in hooks:
+            u.hook_del(hook)
+    return dict(parent_node=parent_node, option_node=option_node, initial=initial, preview=preview,
+        canceled=canceled, selected=selected, committed=committed,
+        native_property=hex(0x7f01), explicit_ticks=605, native_file_requests_while_menu_open=deferred_calls,
+        native_file_requests_after_close=calls, serialized_document_sha256=sha(encoded), serialized_document=json.loads(encoded),
+        native_write_refusal_workers=worker_runs, failed_after_close=failed_after_close,
+        native_menu_sets_open_and_close=True, host_menu_open_writes=0, supplied_ui_mode=3,
+        initial_film=before_film, final_film=word(symbols['film_choice_key']),
+        menu_left_open=False, successful_settings_write=False, hardware_verified=False)
 
 
 def supplied_sections_settle(document):

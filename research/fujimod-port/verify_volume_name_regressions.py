@@ -23,21 +23,22 @@ def main():
     p.add_argument('--build', type=Path, default=ROOT/'volume-name-resized-build-unverified')
     p.add_argument('--output', type=Path, default=ROOT/'volume-name-regressions-unverified')
     p.add_argument('--case', choices=['nr', 'jpeg', 'films'], required=True)
+    p.add_argument('--words', type=int, choices=[68, 72], default=68)
     a = p.parse_args()
     a.output.mkdir(parents=True, exist_ok=True)
     ordinary.START, ordinary.END = 0x1380000, 0x13c0000
     artifacts = [a.build/'manifest.json', a.build/'mods.elf', a.build/'region.bin',
                  Path(str(a.build)+'-card')/'manifest.json']
     if a.case == 'nr':
-        verify_nr(build_function=lambda: ordinary.load(a.build, 68),
+        verify_nr(build_function=lambda: ordinary.load(a.build, a.words),
             output=a.output/'nr', resident_region=(ordinary.START, ordinary.END),
             binding_audit=ROOT/'nr-candidate-unverified/binding-audit.json',
             expected_init_count=4, artifact_files=artifacts)
     elif a.case == 'jpeg':
         jpeg.BUILD, jpeg.OUT = a.build, a.output/'jpeg'
         jpeg.START, jpeg.END = ordinary.START, ordinary.END
-        jpeg.load = lambda directory, count: ordinary.load(directory, 68)
-        jpeg.verify_card = lambda directory, count: verify_card(directory, 68)
+        jpeg.load = lambda directory, count: ordinary.load(directory, a.words)
+        jpeg.verify_card = lambda directory, count: verify_card(directory, a.words)
         jpeg.initialize = lambda u, symbols, call, count: initialize(u, symbols, call, 4)
         jpeg.main()
     else:
@@ -68,11 +69,11 @@ def main():
         namespace['main'] = None
         exec(compile(source, str(Path(films.__file__)) + ':selected-card-labels', 'exec'), namespace)
         namespace['main'](a.build, a.output/'films', context_identity=True,
-                          expected_words=68, expected_init_count=4)
+                          expected_words=a.words, expected_init_count=4)
     report = dict(scope=__doc__, case=a.case,
         elf_sha256=ordinary.sha((a.build/'mods.elf').read_bytes()),
         checker_sha256=ordinary.sha(Path(__file__).read_bytes()),
-        changed_placement=True, words=68, init_count=4, hardware_verified=False)
+        changed_placement=True, words=a.words, init_count=4, hardware_verified=False)
     (a.output/(a.case+'-adapter.json')).write_text(json.dumps(report, indent=2)+'\n')
 
 

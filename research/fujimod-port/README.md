@@ -5,6 +5,14 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
+## Native SAVE DATA setting now operates its real owner
+
+The X-T2 SAVE DATA list retains all eight stock rows and adds FORMAT CARD NAME. Native open/cursor/internal ON/OFF packets, three label measurement paths and stock bank cancel/commit pass on exact ELF `892f6d3b…`; physical OK/BACK routing and full display completion remain open. [Original checks, source pins and exact limits](SAVE_DATA_MENU.md).
+
+On the policy-started machine, native SETTINGS reads restore the owner. With REC held constant, menu-open defers all mod file work; native close releases the existing write attempt. The merged JSON contains the committed value and ETERNA, then the actual missing-driver failure retires resources while keeping dirty state. Twenty-one native reports and a fresh binary rebuild match this artifact. [Causal menu-to-settings chain](MENU_SETTINGS_CHAIN.md).
+
+Only original build wiring, probes/checkers and notes are published. The selected upstream menu-engine templates, private generator and generated C remain local; the public wiring requires those authorized pinned local inputs. This scalar SAVE DATA closure does not silently claim other lists, action pages or Fn/Q assignment support.
+
 ## Integrated guard, format-label codec and native custom-record SAVE
 
 The invalid-open guard now passes the native file/settings/still checks in both the four-mod artifact and a larger five-mod composition. In the latter, native SETTINGS.JSN reads restore FORMAT CARD NAME false/true together with ETERNA; the encoder keeps nondefault false after a film commit. Native write-driver refusal remains explicit. [Exact artifacts and integration evidence](STORAGE_GUARD.md).
