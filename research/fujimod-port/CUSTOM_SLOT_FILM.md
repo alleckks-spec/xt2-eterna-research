@@ -1,7 +1,7 @@
 # Native custom-record film byte serialization
 
 Exact five-mod ELF:
-`58eab0e9177c61d00b689b4bd08ae3c52cb7215975266f7bc93d6462d0c3affa`.
+`892f6d3b5cafb9ac86c4f32e9a625220d58593a7b2c7c6310fcf739c46fe482e`.
 This is a new serialization-boundary check, not a journal write, reboot or
 per-slot extra-film recall claim. No firmware/ELF/SD bytes were changed.
 
@@ -15,17 +15,25 @@ declared fixtures. The SAVE run stops before journal transport.
 
 All49 combinations pass. The destination film byte becomes stock PROVIA0;
 the six added choice keys remain only in the linked volatile choice state.
-Other seven primary records remain byte-identical. The journal descriptor
+The other six primary records remain byte-identical. The journal descriptor
 selects the actual destination record,256bytes and the expected stock record
 offset. Existing scalar-offset evidence independently identifies the film field;
 the check does not infer its location from the observed zero value.
 
-Report: `custom-slot-film-check-unverified/verification.json`. The report retains
+Report: `custom-slot-records7-check-unverified/verification.json`. The report retains
 exact ELF/stock/checker and native setup hashes, per-case record hashes and
 descriptors. It contains no successful NAND result. Native UI-label mapping
 to the visible C1-C7 names is not independently qualified by this assay.
 
 ## Test development and limits
+
+Correction: earlier frozen reports in `custom-slot-film-check-unverified` and
+`save-data-menu-custom-slot-check-unverified` initialized eight adjacent blocks
+as record fixtures. The eighth block is native UI/backup memory, not a custom
+record. Those exploratory reports are retained, but the corrected checker writes
+and compares exactly seven custom records and leaves the following block alone.
+The corrected49-case run above supersedes those fixtures; firmware bytes did not
+change. The correction does not qualify ownership of the following UI block.
 
 Early exploratory input used an invalid film-byte marker; it was replaced with
 valid stock film3. An earlier attempt observed the existing diagnostic GPIO

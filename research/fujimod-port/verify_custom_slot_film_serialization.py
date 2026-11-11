@@ -25,8 +25,8 @@ def sha(data):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--build', type=Path, default=ROOT/'volume-name-resized-build-unverified')
-    p.add_argument('--output', type=Path, default=ROOT/'custom-slot-film-check-unverified/verification.json')
+    p.add_argument('--build', type=Path, default=ROOT/'save-data-menu-native-build-unverified')
+    p.add_argument('--output', type=Path, default=ROOT/'custom-slot-records7-check-unverified/verification.json')
     a = p.parse_args()
     common.BUILD = a.build
     (u, symbols, call, api, clock, init, exceptions), setup = common.fixture_machine(True)
@@ -65,12 +65,14 @@ def main():
                 call(0x154b700, 0x1fc, key, task=True)
                 assert word(symbols['film_choice_key']) == key
                 assert call(0xb510b8, 0x1fc, 0, task=True) == 0
-                for index in range(8):
+                # There are seven native custom records. The following block
+                # is native UI/backup state, not an eighth record fixture.
+                for index in range(7):
                     image = bytearray(stock[0xf7f12c+index*256:0xf7f12c+(index+1)*256])
                     assert len(image) == 256
                     image[0x2d] = 3  # A valid stock film, distinct from PROVIA0.
                     u.mem_write(base+index*256, bytes(image))
-                before = bytes(u.mem_read(base, 8*256))
+                before = bytes(u.mem_read(base, 7*256))
                 u.mem_write(0x120d8a0+0xee93, bytes([slot]))
                 outer_sp = u.reg_read(UC_ARM_REG_SP)
                 u.reg_write(UC_ARM_REG_LR, 0x800f000)
@@ -89,9 +91,9 @@ def main():
                 assert u.reg_read(UC_ARM_REG_PC) == 0xcf8b74 and len(journal) == 1
                 record = base+slot*256
                 assert journal[0] == [record+4, 256, 0xf44+(slot << 8)], (key, slot, journal[0], hex(record))
-                after = bytes(u.mem_read(base, 8*256))
+                after = bytes(u.mem_read(base, 7*256))
                 assert after[slot*256+0x2d] == 0
-                for index in range(8):
+                for index in range(7):
                     if index != slot:
                         assert after[index*256:(index+1)*256] == before[index*256:(index+1)*256]
                 assert word(symbols['film_choice_key']) == key
@@ -108,6 +110,7 @@ def main():
         stock_sha256=sha(stock), checker_sha256=sha(Path(__file__).read_bytes()),
         setup=setup, init_calls=init, native_vfp_exceptions=exceptions,
         raw_slot_indices=list(range(7)), ui_label_mapping_qualified=False,
+        custom_record_count=7, following_ui_block_initialized=False,
         film_scalar_audit_sha256=sha((ROOT/'wb-build-unverified/scalar-offset-audit.json').read_bytes()),
         actual_journal_transport=False, independent_extra_choice_per_slot=False,
         hardware_verified=False)
