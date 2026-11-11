@@ -1,3 +1,14 @@
+## Native SETTINGS write and restore, November 12, 2026
+
+[Checkpoint](NATIVE_SETTINGS_PERSISTENCE.md), [commit checker](probe_sdk_native_fs_settings_commit.py)
+and [fresh-board restore checker](probe_sdk_native_fs_settings_restore.py): exact
+ELF892f6d3b executes native cancel/commit, genuine periodic timer/IRQ/task34,
+asynchronous create/write166bytes/close/readback and recovery of ETERNA without
+a setter. Original SDK board/SD model; no injected success, ticks or workers.
+Physical camera/SD power-cycle remains unverified. The checkers require the
+prepared local workspace, stock inputs, exact ELF and pinned SDK; these inputs
+are not distributed. The small settings-readback JSON is an original test fixture.
+
 ## Volatile XPP USB debug variant, November 11, 2026
 
 [Checkpoint](USB_DEBUG.md) and [original verifier](verify_usb_debug_candidate.py):

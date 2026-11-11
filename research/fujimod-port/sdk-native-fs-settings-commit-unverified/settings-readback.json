@@ -1,0 +1,12 @@
+{
+  "stock_choices": {
+    "current": {
+      "values": [
+        {
+          "setting": "film_simulation",
+          "value": "eterna"
+        }
+      ]
+    }
+  }
+}
