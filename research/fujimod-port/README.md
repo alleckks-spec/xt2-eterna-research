@@ -1,3 +1,12 @@
+## Native A/B date folders, November 12, 2026
+
+[Checkpoint](DATE_FOLDERS_NATIVE.md): actual A/B name producers and auto
+arbitration on exact0cbd4cb6 pass new-day/continuation/OFF/refusal/edge/ABI
+checks. Shared counters are preserved until the original post-storage owner;
+requests alone never mark a folder created. Both native SAVE DATA items,
+numeric regressions and four-binary rebuild pass. Private preparation source
+and all firmware stay local; physical dual-card capture remains unverified.
+
 ## Native custom WB pair integration, November 12, 2026
 
 [Checkpoint](WB_SHIFT.md) records the exact b69eb2d7 WB composition:84native
