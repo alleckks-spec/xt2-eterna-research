@@ -1,3 +1,13 @@
+## Compatible WB/date/USB composition, November 12, 2026
+
+[Combined checkpoint](WB_USB_DATE.md), [WB/USB parent](WB_USB.md), and original
+build/adaptation tools qualify exact18d06d6a:42sources/8mods/81words, four
+reproduced binaries and rerun native/numeric checks. Genuine SDK writes and
+fresh-board restores ETERNA plus both nondefault save_data values. A later
+negative media-error test exposed an inline-callback retirement defect; the
+checkpoint documents it and a successor is in progress. Physical camera and
+persistence remain unverified. No firmware/private inputs are distributed.
+
 ## Native A/B date folders, November 12, 2026
 
 [Checkpoint](DATE_FOLDERS_NATIVE.md): actual A/B name producers and auto
