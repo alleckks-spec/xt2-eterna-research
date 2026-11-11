@@ -1,3 +1,12 @@
+## Native custom WB pair integration, November 12, 2026
+
+[Checkpoint](WB_SHIFT.md) records the exact b69eb2d7 WB composition:84native
+SAVE/cache/recall/edit chains,42imports,49film serializer controls, native
+regressions and reproducible delivery pass. Native import invalidates the
+marker in both active and shadow records; an earlier primary-only candidate
+reproduces stale-marker revival through cancel. Physical NAND/power-cycle
+remain unverified. Private upstream sources and transformer stay local.
+
 ## Native SETTINGS write and restore, November 12, 2026
 
 [Checkpoint](NATIVE_SETTINGS_PERSISTENCE.md), [commit checker](probe_sdk_native_fs_settings_commit.py)

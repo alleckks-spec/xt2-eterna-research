@@ -23,7 +23,7 @@ def main():
     p.add_argument('--build', type=Path, default=ROOT/'volume-name-resized-build-unverified')
     p.add_argument('--output', type=Path, default=ROOT/'volume-name-regressions-unverified')
     p.add_argument('--case', choices=['nr', 'jpeg', 'films'], required=True)
-    p.add_argument('--words', type=int, choices=[68, 72, 73], default=68)
+    p.add_argument('--words', type=int, choices=[68, 72, 73, 76], default=68)
     a = p.parse_args()
     a.output.mkdir(parents=True, exist_ok=True)
     ordinary.START, ordinary.END = 0x1380000, 0x13c0000
