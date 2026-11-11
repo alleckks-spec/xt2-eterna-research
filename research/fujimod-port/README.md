@@ -5,6 +5,12 @@ objective is to adapt the existing FujiMod/X-T20 modules through their ordinary
 XPP builder and recovery composer. The earlier standalone Sepia replacement is
 historical research, not the current implementation plan.
 
+## Full composition timer ABI and invalid-open control
+
+The four-mod active-timer configuration now delivers the X-T2 dispatcher stack fix. Actual film-loader registration and two native-dispatched production callbacks reproduce the original misalignment and pass with the delivered word. ELF/region remain byte-identical; all67 SD edits and fresh rebuild correspondence pass. [Exact evidence and limits](FULL_TIMER.md).
+
+A bounded backport of published cardio PR471 rejects invalid successful-open handles before they can enter native trapping wrappers. Separate original/fixed compiled components pass24 negative/ABI callback-boundary controls each. This is a partial guard, with token identity, task issue, watchdog/admission and DMA still open. [Control and reproduction](CARDIO_OPEN_GUARD.md); [bounded source comparison](UPSTREAM_REUSE_2026-11-11.md).
+
 ## Card processing: native central assembly passes; full lifecycle OPEN
 
 **Native commit/cancel and save-error handling are now checked; successful writing is still open.** Preview/cancel do not request saving; a real bank checkpoint requests generation1 once. The existing encoder produces166-byte ETERNA JSON and native mode1 reaches w-open, but the supplied read-FS fixture lacks the driver registration required for writes. Actual native refusal returns callback5; failed1/completed0/dirty state is preserved and file resources/callbacks retire. No readiness/registration value or success reply is fabricated; runtime unchanged. [Original checker, exact refusal and next bootstrap prerequisite](COMMON_SETTINGS_WRITE.md).
