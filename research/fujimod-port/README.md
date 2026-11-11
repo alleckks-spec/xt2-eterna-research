@@ -1,3 +1,13 @@
+## Recorded callback issue correction, November 12, 2026
+
+[Checkpoint](CARDIO_TASK_ISSUE.md): exact095daaa2 fixes the reproduced inline
+native read-refusal callback loss on18d06d6a. Existing PR471 per-bank recording
+and poll reuse native task34; failure closes/retires exactly once and one
+explicit caller retry succeeds. Genuine SDK merged SETTINGS write/restore,
+changed-artifact regressions and four-binary rebuild pass. Native queue-post
+exhaustion and other listed boundaries remain software work. Private upstream
+C and all firmware/reports stay local; original glue/checkers are provided.
+
 ## Compatible WB/date/USB composition, November 12, 2026
 
 [Combined checkpoint](WB_USB_DATE.md), [WB/USB parent](WB_USB.md), and original
