@@ -1,5 +1,21 @@
 # X-T2 FujiMod port and earlier ETERNA research
 
+## Developer entry point — 12 November 2026
+
+**No physical camera was available. This repository contains software-tested
+research, not a camera-tested firmware release or a standalone public build.**
+
+Start with [X-T2 developer findings worth reusing](COMMUNITY_GUIDE.md): UI packet
+extent, directory error handling, timer ownership, inline storage callbacks,
+WB import cancellation and native settings write/restore. It links concrete
+counterexamples, original adapters, regression tools and their required local
+inputs, while retaining upstream attribution.
+
+The dated sections below retain their original artifact-specific scope.
+In particular, the 9 November failed-write checkpoint is historical;
+the later [native settings write/restore result](research/fujimod-port/NATIVE_SETTINGS_PERSISTENCE.md)
+qualifies a separate software-board artifact, not physical persistence.
+
 ## Current direction — 9 November 2026
 
 The active goal is to adapt the existing FujiMod/X-T20 modules to X-T2 4.41 through the ordinary XPP builder and recovery composer. The standalone Sepia→ETERNA direction below is historical and has been superseded.
